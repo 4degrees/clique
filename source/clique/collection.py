@@ -11,9 +11,9 @@ import clique.error
 class Collection(object):
     '''Represent group of items that differ only by numerical component.'''
 
-    head = clique.descriptor.ReadOnly('head')
-    tail = clique.descriptor.ReadOnly('tail')
-    padding = clique.descriptor.ReadOnly('padding')
+    head = clique.descriptor.Unsettable('head')
+    tail = clique.descriptor.Unsettable('tail')
+    padding = clique.descriptor.Unsettable('padding')
 
     def __init__(self, head, tail, padding, indexes=None):
         '''Initialise collection.
