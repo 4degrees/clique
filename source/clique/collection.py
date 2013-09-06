@@ -4,9 +4,15 @@
 
 import re
 
+import clique.descriptor
+
 
 class Collection(object):
     '''Represent group of items that differ only by numerical component.'''
+
+    head = clique.descriptor.ReadOnly('head')
+    tail = clique.descriptor.ReadOnly('tail')
+    padding = clique.descriptor.ReadOnly('padding')
 
     def __init__(self, head, tail, padding, indexes=None):
         '''Initialise collection.
@@ -24,9 +30,11 @@ class Collection(object):
 
         '''
         super(Collection, self).__init__()
-        self.head = head
-        self.tail = tail
-        self.padding = padding
+        self.__dict__.update({
+            'head': head,
+            'tail': tail,
+            'padding': padding
+        })
         self.indexes = set()
         if indexes is not None:
             self.indexes.update(indexes)
