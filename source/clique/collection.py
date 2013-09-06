@@ -69,19 +69,59 @@ class Collection(object):
 
         return True
 
-    def __eq__(self, collection):
-        '''Return whether other *collection* is equal to this one.'''
+    def __eq__(self, other):
+        '''Return whether *other* collection is equal.'''
+        if not isinstance(other, Collection):
+            return NotImplemented
+
         return all([
-            isinstance(collection, Collection),
-            collection.head == self.head,
-            collection.tail == self.tail,
-            collection.padding == self.padding,
-            collection.indexes == self.indexes
+            other.head == self.head,
+            other.tail == self.tail,
+            other.padding == self.padding,
+            other.indexes == self.indexes
         ])
 
-    def __ne__(self, collection):
-        '''Return whether other *collection* is not equal to this one.'''
-        return not (self == collection)
+    def __ne__(self, other):
+        '''Return whether *other* collection is not equal.'''
+        result = (self == other)
+        if result is NotImplemented:
+            return result
+
+        return not result
+
+    def __gt__(self, other):
+        '''Return whether *other* collection is greater than.'''
+        if not isinstance(other, Collection):
+            return NotImplemented
+
+        a = (self.head, self.tail, self.padding, len(self.indexes))
+        b = (other.head, other.tail, other.padding, len(other.indexes))
+
+        return a > b
+
+    def __lt__(self, other):
+        '''Return whether *other* collection is less than.'''
+        result = (self > other)
+        if result is NotImplemented:
+            return result
+
+        return not result
+
+    def __ge__(self, other):
+        '''Return whether *other* collection is greater than or equal.'''
+        result = (self < other)
+        if result is NotImplemented:
+            return result
+
+        return not result
+
+    def __le__(self, other):
+        '''Return whether *other* collection is less than or equal.'''
+        result = (self > other)
+        if result is NotImplemented:
+            return result
+
+        return not result
 
     def match(self, item):
         '''Return whether *item* matches this collection pattern.
@@ -278,4 +318,3 @@ class Collection(object):
             )
 
         return collections
-
