@@ -106,7 +106,7 @@ class Collection(object):
         except KeyError:
             raise clique.error.CollectionError('Item not present in sequence.')
 
-    def format(self, pattern):
+    def format(self, pattern='{head}{padding}{tail} [{ranges}]'):
         '''Return string representation as specified by *pattern*.'''
         data = {}
         data['head'] = self.head
