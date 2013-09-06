@@ -21,6 +21,9 @@ def PaddedCollection(**kw):
 
 
 @pytest.mark.parametrize(('collection', 'item', 'matches'), [
+    (UnpaddedCollection(), '/diff_head.1001.ext', False),
+    (UnpaddedCollection(), '/head.1001.diff_ext', False),
+
     (UnpaddedCollection(), '/head.1001.ext', True),
     (UnpaddedCollection(), '/head.0001.ext', False),
 
@@ -28,6 +31,9 @@ def PaddedCollection(**kw):
     (PaddedCollection(), '/head.1001.ext', True),
     (PaddedCollection(), '/head.10001.ext', False)
 ], ids=[
+    'different head',
+    'different tail',
+
     'unpadded-collection:unpadded item',
     'unpadded-collection:padded item',
 
@@ -99,19 +105,23 @@ def test_remove_non_member():
     with pytest.raises(CollectionError):
         collection.remove('/head.0100.ext')
 
+    with pytest.raises(CollectionError):
+        collection.remove('/diff_head.0001.ext')
 
-@pytest.mark.parametrize(('pattern', 'expected'), [
-    ('{head}', '/head.'),
-    ('{padding}', '%04d'),
-    ('{tail}', '.ext'),
-    ('{range}', '1-12'),
-    ('{ranges}', '1-3, 7, 9-12'),
-    ('{holes}', '4-6, 8'),
+
+@pytest.mark.parametrize(('CollectionCls', 'pattern', 'expected'), [
+    (PaddedCollection, '{head}', '/head.'),
+    (PaddedCollection, '{padding}', '%04d'),
+    (UnpaddedCollection, '{padding}', '%d'),
+    (PaddedCollection, '{tail}', '.ext'),
+    (PaddedCollection, '{range}', '1-12'),
+    (PaddedCollection, '{ranges}', '1-3, 7, 9-12'),
+    (PaddedCollection, '{holes}', '4-6, 8'),
 
 ])
-def test_format(pattern, expected):
+def test_format(CollectionCls, pattern, expected):
     '''Format collection according to pattern.'''
-    collection = PaddedCollection(indexes=set([1, 2, 3, 7, 9, 10, 11, 12]))
+    collection = CollectionCls(indexes=set([1, 2, 3, 7, 9, 10, 11, 12]))
     assert collection.format(pattern) == expected
 
 
