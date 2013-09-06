@@ -152,7 +152,7 @@ def test_holes(indexes, expected):
     '''Retrieve holes in collection.'''
     collection = PaddedCollection(indexes=indexes)
     holes = collection.holes()
-    assert holes.indexes == indexes
+    assert holes.indexes == expected
 
 
 @pytest.mark.parametrize(('collection_a', 'collection_b', 'expected'), [
