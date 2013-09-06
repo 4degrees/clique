@@ -43,6 +43,14 @@ class Collection(object):
         self._pattern = re.compile('^{0}(?P<index>(?P<padding>0*)\d+?){1}$'
                                    .format(self.head, self.tail))
 
+    def __str__(self):
+        '''Return string represenation.'''
+        return self.format()
+
+    def __repr__(self):
+        '''Return representation.'''
+        return '<{0} "{1}">'.format(self.__class__.__name__, self)
+
     def __iter__(self):
         '''Return iterator over items in collection.'''
         for index in sorted(self.indexes):
