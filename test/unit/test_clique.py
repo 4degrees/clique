@@ -47,7 +47,7 @@ def test_assemble():
         clique.Collection('head1_', '_v1.0002.tail', 3, indexes=set([10, 20]))
     ]
 
-    assert sorted(collections, key=str) == sorted(expected, key=str)
+    assert sorted(collections) == sorted(expected)
 
 
 def test_assemble_no_patterns():
@@ -92,7 +92,7 @@ def test_assemble_minimum_items_filter():
         clique.Collection('head_v1.', '.ext', 3, indexes=set([1, 2, 3])),
         clique.Collection('head_v2.', '.ext', 3, indexes=set([1, 2]))
     ]
-    assert sorted(collections, key=str) == sorted(expected, key=str)
+    assert sorted(collections) == sorted(expected)
 
     collections = clique.assemble(items, minimum_items=3)
     expected = [
