@@ -20,6 +20,21 @@ def PaddedCollection(**kw):
     return Collection('/head.', '.ext', padding=4, **kw)
 
 
+@pytest.mark.parametrize(('collection', 'expected'), [
+    (UnpaddedCollection(indexes=set([1, 100, 1000])),
+     ['/head.1.ext', '/head.100.ext', '/head.1000.ext']),
+
+    (PaddedCollection(indexes=set([1, 100, 1000])),
+     ['/head.0001.ext', '/head.0100.ext', '/head.1000.ext'])
+], ids=[
+    'unpadded-collection',
+    'padded-collection',
+])
+def test_iterator(collection, expected):
+    '''Iterate over items in collection.'''
+    assert list(collection) == expected
+
+
 @pytest.mark.parametrize(('collection', 'item', 'matches'), [
     (UnpaddedCollection(), '/diff_head.1001.ext', False),
     (UnpaddedCollection(), '/head.1001.diff_ext', False),

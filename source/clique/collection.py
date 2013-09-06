@@ -45,6 +45,10 @@ class Collection(object):
 
     def __iter__(self):
         '''Return iterator over items in collection.'''
+        for index in sorted(self.indexes):
+            formatted_index = '{0:0{1}d}'.format(index, self.padding)
+            item = '{0}{1}{2}'.format(self.head, formatted_index, self.tail)
+            yield item
 
     def __contains__(self, item):
         '''Return whether *item* is present in collection.'''
