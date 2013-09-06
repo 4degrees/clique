@@ -19,9 +19,6 @@ class Unsettable(object):
 
     def __get__(self, instance, owner):
         '''Return value of property for *instance*.'''
-        if instance is None:
-            return self
-
         return instance.__dict__.get(self.label)
 
     def __set__(self, instance, value):
