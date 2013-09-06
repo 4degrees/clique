@@ -83,7 +83,7 @@ class Collection(object):
 
     def __ne__(self, other):
         '''Return whether *other* collection is not equal.'''
-        result = (self == other)
+        result = self.__eq__(other)
         if result is NotImplemented:
             return result
 
@@ -101,7 +101,7 @@ class Collection(object):
 
     def __lt__(self, other):
         '''Return whether *other* collection is less than.'''
-        result = (self > other)
+        result = self.__gt__(other)
         if result is NotImplemented:
             return result
 
@@ -109,19 +109,25 @@ class Collection(object):
 
     def __ge__(self, other):
         '''Return whether *other* collection is greater than or equal.'''
-        result = (self < other)
+        result = self.__eq__(other)
         if result is NotImplemented:
             return result
 
-        return not result
+        if result is False:
+            result = self.__gt__(other)
+
+        return result
 
     def __le__(self, other):
         '''Return whether *other* collection is less than or equal.'''
-        result = (self > other)
+        result = self.__eq__(other)
         if result is NotImplemented:
             return result
 
-        return not result
+        if result is False:
+            result = self.__lt__(other)
+
+        return result
 
     def match(self, item):
         '''Return whether *item* matches this collection pattern.
