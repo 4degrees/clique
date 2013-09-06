@@ -52,6 +52,27 @@ def test_contains(item, expected):
     assert (item in collection) == expected
 
 
+@pytest.mark.parametrize(('collection_a', 'collection_b', 'expected'), [
+    (Collection('head', 'tail', 0), Collection('head', 'tail', 0), True),
+    (Collection('head', 'tail', 0), Collection('diff_head', 'tail', 0), False),
+    (Collection('head', 'tail', 0), Collection('head', 'diff_tail', 0), False),
+    (Collection('head', 'tail', 0), Collection('head', 'tail', 4), False),
+    (Collection('head', 'tail', 0, indexes=set([1, 2])),
+     Collection('head', 'tail', 0, indexes=set([1])),
+     False),
+], ids=[
+    'equal',
+    'different head',
+    'different tail',
+    'different padding',
+    'different indexes'
+])
+def test_equality(collection_a, collection_b, expected):
+    '''Check equality of collections.'''
+    assert (collection_a == collection_b) == expected
+    assert (collection_a != collection_b) == (not expected)
+
+
 @pytest.mark.parametrize(('collection', 'item', 'matches'), [
     (UnpaddedCollection(), '/diff_head.1001.ext', False),
     (UnpaddedCollection(), '/head.1001.diff_ext', False),
