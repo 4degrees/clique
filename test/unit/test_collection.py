@@ -65,24 +65,45 @@ def test_contains(item, expected):
 
 
 @pytest.mark.parametrize(('collection_a', 'collection_b', 'expected'), [
-    (Collection('head', 'tail', 0), Collection('head', 'tail', 0), True),
-    (Collection('head', 'tail', 0), Collection('diff_head', 'tail', 0), False),
-    (Collection('head', 'tail', 0), Collection('head', 'diff_tail', 0), False),
-    (Collection('head', 'tail', 0), Collection('head', 'tail', 4), False),
+    (Collection('head', 'tail', 0), Collection('head', 'tail', 0), 0),
+    (Collection('head', 'tail', 0), Collection('diff_head', 'tail', 0), -1),
+    (Collection('head', 'tail', 0), Collection('head', 'diff_tail', 0), -1),
+    (Collection('head', 'tail', 0), Collection('head', 'tail', 4), 1),
     (Collection('head', 'tail', 0, indexes=set([1, 2])),
-     Collection('head', 'tail', 0, indexes=set([1])),
-     False),
+     Collection('head', 'tail', 0, indexes=set([1])), -1),
 ], ids=[
     'equal',
-    'different head',
-    'different tail',
-    'different padding',
-    'different indexes'
+    'different head (b > a)',
+    'different tail (b > a)',
+    'different padding (a > b)',
+    'different indexes (b > a)'
 ])
-def test_equality(collection_a, collection_b, expected):
-    '''Check equality of collections.'''
-    assert (collection_a == collection_b) == expected
-    assert (collection_a != collection_b) == (not expected)
+def test_comparisons(collection_a, collection_b, expected):
+    '''Compare collections.'''
+    equal = (expected == 0)
+    assert (collection_a == collection_b) == equal
+    assert (collection_a != collection_b) == (not equal)
+
+    if not equal:
+        greater = (expected == -1)
+        assert (collection_a > collection_b) == greater
+        assert (collection_a < collection_b) == (not greater)
+
+        assert (collection_a >= collection_b) == greater
+        assert (collection_a <= collection_b) == (not greater)
+
+    else:
+        assert (collection_a >= collection_b) == True
+        assert (collection_a <= collection_b) == True
+
+
+def test_not_implemented_comparison():
+    '''Compare collection against non-collection.'''
+    collection = UnpaddedCollection()
+    for comparison in (
+        '__eq__', '__ne__', '__lt__', '__gt__', '__ge__', '__le__'
+    ):
+        assert getattr(collection, comparison)(None) is NotImplemented
 
 
 @pytest.mark.parametrize(('collection', 'item', 'matches'), [
