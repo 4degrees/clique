@@ -156,6 +156,25 @@ def test_holes(indexes, expected):
 
 
 @pytest.mark.parametrize(('collection_a', 'collection_b', 'expected'), [
+    (Collection('head', 'tail', 0),
+     Collection('head', 'tail', 0, indexes=set([1, 2])),
+     True
+    ),
+    (Collection('head', 'tail', 0), Collection('diff_head', 'tail', 0), False),
+    (Collection('head', 'tail', 0), Collection('head', 'diff_tail', 0), False),
+    (Collection('head', 'tail', 0), Collection('head', 'tail', 4), False)
+], ids=[
+    'compatible',
+    'incompatible head',
+    'incompatible tail',
+    'incompatible padding'
+])
+def test_is_compatible(collection_a, collection_b, expected):
+    '''Check collection compatibility.'''
+    assert collection_a.is_compatible(collection_b) == expected
+
+
+@pytest.mark.parametrize(('collection_a', 'collection_b', 'expected'), [
     (PaddedCollection(), PaddedCollection(), set([])),
     (PaddedCollection(indexes=set([1])), PaddedCollection(indexes=set([2])),
      set([1, 2])),
