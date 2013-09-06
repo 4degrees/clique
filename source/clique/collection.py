@@ -108,6 +108,40 @@ class Collection(object):
 
     def format(self, pattern):
         '''Return string representation as specified by *pattern*.'''
+        data = {}
+        data['head'] = self.head
+        data['tail'] = self.tail
+
+        if self.padding:
+            data['padding'] = '%0{0}d'.format(self.padding)
+        else:
+            data['padding'] = '%d'
+
+        if self.indexes:
+            data['holes'] = self.holes().format('{ranges}')
+
+            indexes = sorted(self.indexes)
+            if len(indexes) == 1:
+                data['range'] = '{0}'.format(indexes[0])
+            else:
+                data['range'] = '{0}-{1}'.format(indexes[0], indexes[-1])
+
+            separated = self.separate()
+            if len(separated) > 1:
+                ranges = [collection.format('{range}')
+                          for collection in separated]
+
+            else:
+                ranges = [data['range']]
+
+            data['ranges'] = ', '.join(ranges)
+
+        else:
+            data['holes'] = ''
+            data['range'] = ''
+            data['ranges'] = ''
+
+        return pattern.format(**data)
 
     def is_contiguous(self):
         '''Return whether entire collection is contiguous.'''

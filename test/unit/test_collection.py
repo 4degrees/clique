@@ -101,7 +101,7 @@ def test_remove_non_member():
 
 
 @pytest.mark.parametrize(('pattern', 'expected'), [
-    ('{head}', '/head'),
+    ('{head}', '/head.'),
     ('{padding}', '%04d'),
     ('{tail}', '.ext'),
     ('{range}', '1-12'),
