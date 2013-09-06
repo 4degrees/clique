@@ -69,6 +69,20 @@ class Collection(object):
 
         return True
 
+    def __eq__(self, collection):
+        '''Return whether other *collection* is equal to this one.'''
+        return all([
+            isinstance(collection, Collection),
+            collection.head == self.head,
+            collection.tail == self.tail,
+            collection.padding == self.padding,
+            collection.indexes == self.indexes
+        ])
+
+    def __ne__(self, collection):
+        '''Return whether other *collection* is not equal to this one.'''
+        return not (self == collection)
+
     def match(self, item):
         '''Return whether *item* matches this collection pattern.
 
