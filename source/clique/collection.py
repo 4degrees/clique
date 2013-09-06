@@ -81,7 +81,7 @@ class Collection(object):
     def holes(self):
         '''Return holes in collection.
 
-        Return as list of :py:class:`~clique.collection.Collection` instances.
+        Return :py:class:`~clique.collection.Collection` of missing indexes.
 
         '''
 

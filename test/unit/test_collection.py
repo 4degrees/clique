@@ -132,13 +132,13 @@ def test_is_contiguous(collection, expected):
 
 
 @pytest.mark.parametrize(('indexes', 'expected'), [
-    (set([]), []),
-    (set([1]), []),
-    (set([8, 9, 10, 11]), []),
-    (set([2, 3]), []),
-    (set([1, 3]), [set([2])]),
-    (set([1, 5]), [set([2, 3, 4])]),
-    (set([1, 5, 6, 7, 12]), [set([2, 3, 4]), set([8, 9, 10, 11])])
+    (set([]), set([])),
+    (set([1]), set([])),
+    (set([8, 9, 10, 11]), set([])),
+    (set([2, 3]), set([])),
+    (set([1, 3]), set([2])),
+    (set([1, 5]), set([2, 3, 4])),
+    (set([1, 5, 6, 7, 12]), set([2, 3, 4, 8, 9, 10, 11]))
 ], ids=[
     'empty',
     'single index',
@@ -152,11 +152,7 @@ def test_holes(indexes, expected):
     '''Retrieve holes in collection.'''
     collection = PaddedCollection(indexes=indexes)
     holes = collection.holes()
-    assert len(holes) == len(expected)
-
-    if expected:
-        for index, indexes in enumerate(expected):
-            assert holes[index].indexes == indexes
+    assert holes.indexes == indexes
 
 
 @pytest.mark.parametrize(('collection_a', 'collection_b', 'expected'), [
