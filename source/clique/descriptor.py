@@ -4,7 +4,24 @@
 
 
 class Unsettable(object):
-    '''Read-only descriptor.'''
+    '''Prevent standard setting of property.
+
+    Example::
+
+        >>> class Foo(object):
+        ...
+        ...     x = Unsettable('x')
+        ...
+        ...     def __init__(self):
+        ...         self.__dict__['x'] = True
+        ...
+        >>> foo = Foo()
+        >>> print foo.x
+        True
+        >>> foo.x = False
+        AttributeError: Cannot set attribute defined as unsettable.
+
+    '''
 
     def __init__(self, label):
         '''Initialise descriptor with property *label*.
