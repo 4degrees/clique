@@ -20,6 +20,18 @@ def PaddedCollection(**kw):
     return Collection('/head.', '.ext', padding=4, **kw)
 
 
+def test_str():
+    '''String representation.'''
+    collection = Collection('head.', '.tail', 0, indexes=set([1, 2, 3]))
+    assert str(collection) == 'head.%d.tail [1-3]'
+
+
+def test_repr():
+    '''Repr representation.'''
+    collection = Collection('head.', '.tail', 0, indexes=set([1, 2, 3]))
+    assert repr(collection) == '<Collection "head.%d.tail [1-3]">'
+
+
 @pytest.mark.parametrize(('collection', 'expected'), [
     (UnpaddedCollection(indexes=set([1, 100, 1000])),
      ['/head.1.ext', '/head.100.ext', '/head.1000.ext']),
