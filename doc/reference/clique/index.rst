@@ -10,3 +10,7 @@
 .. toctree::
     :glob:
 
+    collection
+    error
+    descriptor
+
