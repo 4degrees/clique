@@ -5,6 +5,7 @@
 import re
 
 import clique.descriptor
+import clique.error
 
 
 class Collection(object):
@@ -80,6 +81,13 @@ class Collection(object):
         added to the collection.
 
         '''
+        match = self.match(item)
+        if match is None:
+            raise clique.error.CollectionError(
+                'Item does not match sequence pattern.'
+            )
+
+        self.indexes.add(int(match.group('index')))
 
     def remove(self, item):
         '''Remove *item* from collection.
@@ -88,6 +96,15 @@ class Collection(object):
         removed from the collection.
 
         '''
+        match = self.match(item)
+        if match is None:
+            raise clique.error.CollectionError('Item not present in sequence.')
+
+        index = int(match.group('index'))
+        try:
+            self.indexes.remove(index)
+        except KeyError:
+            raise clique.error.CollectionError('Item not present in sequence.')
 
     def format(self, pattern):
         '''Return string representation as specified by *pattern*.'''
