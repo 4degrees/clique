@@ -35,6 +35,23 @@ def test_iterator(collection, expected):
     assert list(collection) == expected
 
 
+@pytest.mark.parametrize(('item', 'expected'), [
+    ('/head.0001.ext', True),
+    ('/diff_head.0001.ext', False),
+    ('/head.0001.diff_ext', False),
+    ('/head.1000.ext', False)
+], ids=[
+    'valid member',
+    'different head',
+    'different tail',
+    'non-member index'
+])
+def test_contains(item, expected):
+    '''Collection contains item.'''
+    collection = PaddedCollection(indexes=set([1]))
+    assert (item in collection) == expected
+
+
 @pytest.mark.parametrize(('collection', 'item', 'matches'), [
     (UnpaddedCollection(), '/diff_head.1001.ext', False),
     (UnpaddedCollection(), '/head.1001.diff_ext', False),

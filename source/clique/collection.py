@@ -52,6 +52,14 @@ class Collection(object):
 
     def __contains__(self, item):
         '''Return whether *item* is present in collection.'''
+        match = self.match(item)
+        if not match:
+            return False
+
+        if not int(match.group('index')) in self.indexes:
+            return False
+
+        return True
 
     def match(self, item):
         '''Return whether *item* matches this collection pattern.
