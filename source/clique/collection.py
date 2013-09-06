@@ -187,7 +187,19 @@ class Collection(object):
             raise clique.error.CollectionError('Item not present in sequence.')
 
     def format(self, pattern='{head}{padding}{tail} [{ranges}]'):
-        '''Return string representation as specified by *pattern*.'''
+        '''Return string representation as specified by *pattern*.
+
+        Pattern can be any format accepted by Python's standard format function
+        and will receive the following keyword arguments as context:
+
+            * *head* - Common leading part of the collection.
+            * *tail* - Common trailing part of the collection.
+            * *padding* - Padding value in ``%0d`` format.
+            * *range* - Total range in the form ``start-end``
+            * *ranges* - Comma separated ranges of indexes.
+            * *holes* - Comma separated ranges of missing indexes.
+
+        '''
         data = {}
         data['head'] = self.head
         data['tail'] = self.tail
