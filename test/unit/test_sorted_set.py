@@ -7,22 +7,16 @@ import pytest
 from clique.sorted_set import SortedSet
 
 
-@pytest.fixture
-def standard_set(request):
-    '''Return sorted set.'''
-    return SortedSet([4, 5, 6, 7, 2, 1, 1])
-
-
-@pytest.mark.parametrize(('item', 'expected'), [
-    (1, True),
-    (10, False)
+@pytest.mark.parametrize(('sorted_set', 'item', 'expected'), [
+    (SortedSet([1]), 1, True),
+    (SortedSet([1]), 10, False)
 ], ids=[
     'item present',
     'item not present'
 ])
-def test_contains(item, expected, standard_set):
+def test_contains(sorted_set, item, expected):
     '''Check item membership.'''
-    assert (item in standard_set) is expected
+    assert (item in sorted_set) is expected
 
 
 @pytest.mark.parametrize(('sorted_set', 'expected'), [
