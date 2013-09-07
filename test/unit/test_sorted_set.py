@@ -30,7 +30,7 @@ def test_contains(item, expected, standard_set):
     (SortedSet([]), 0),
     (SortedSet([1]), 1),
     (SortedSet([1, 2, 3]), 3),
-    (SortedSet([1, 1, 2, 2, 3, 3]), 4)
+    (SortedSet([1, 1, 2, 2, 3, 3]), 3)
 ], ids=[
     'no iterable',
     'empty iterable',
