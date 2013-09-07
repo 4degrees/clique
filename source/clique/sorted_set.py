@@ -19,15 +19,32 @@ class SortedSet(collections.MutableSet):
 
     def __contains__(self, item):
         '''Return whether *item* is present.'''
+        return self._index(item) >= 0
 
     def __len__(self):
         '''Return number of items.'''
+        return len(self._members)
 
     def __iter__(self):
         '''Return iterator over items.'''
+        return iter(self._members)
 
     def add(self, item):
         '''Add *item*.'''
+        if not item in self:
+            index = bisect.bisect_right(self._members, item)
+            self._members.insert(index, item)
 
     def discard(self, item):
         '''Remove *item*.'''
+        index = self._index(item)
+        if index >= 0:
+            del self._members[index]
+
+    def _index(self, item):
+        '''Return index of *item* in member list or -1 if not present.'''
+        index = bisect.bisect_left(self._members, item)
+        if index != len(self) and self._members[index] == item:
+            return index
+
+        return -1
