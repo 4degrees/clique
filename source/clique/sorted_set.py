@@ -14,8 +14,7 @@ class SortedSet(collections.MutableSet):
         super(SortedSet, self).__init__()
         self._members = []
         if iterable:
-            for item in iterable:
-                self.add(item)
+            self.update(iterable)
 
     def __contains__(self, item):
         '''Return whether *item* is present.'''
@@ -40,6 +39,11 @@ class SortedSet(collections.MutableSet):
         index = self._index(item)
         if index >= 0:
             del self._members[index]
+
+    def update(self, iterable):
+        '''Update items with those from *iterable*.'''
+        for item in iterable:
+            self.add(item)
 
     def _index(self, item):
         '''Return index of *item* in member list or -1 if not present.'''

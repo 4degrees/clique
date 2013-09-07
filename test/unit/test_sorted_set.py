@@ -72,6 +72,13 @@ def test_discard(sorted_set, item):
     assert item not in sorted_set
 
 
+def test_update():
+    '''Update with items from another iterable.'''
+    sorted_set = SortedSet([1, 2, 3])
+    sorted_set.update([1, 4, 5, 6])
+    assert list(sorted_set) == [1, 2, 3, 4, 5, 6]
+
+
 def test_iter():
     '''Iterate over ordered items.'''
     sorted_set = SortedSet([5, 2, 3, 4, 8, 9, 1, 1])
