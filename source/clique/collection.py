@@ -6,6 +6,7 @@ import re
 
 import clique.descriptor
 import clique.error
+import clique.sorted_set
 
 
 class Collection(object):
@@ -36,7 +37,7 @@ class Collection(object):
             'tail': tail,
             'padding': padding
         })
-        self.indexes = set()
+        self.indexes = clique.sorted_set.SortedSet()
         if indexes is not None:
             self.indexes.update(indexes)
 
@@ -53,7 +54,7 @@ class Collection(object):
 
     def __iter__(self):
         '''Return iterator over items in collection.'''
-        for index in sorted(self.indexes):
+        for index in self.indexes:
             formatted_index = '{0:0{1}d}'.format(index, self.padding)
             item = '{0}{1}{2}'.format(self.head, formatted_index, self.tail)
             yield item
@@ -212,7 +213,7 @@ class Collection(object):
         if self.indexes:
             data['holes'] = self.holes().format('{ranges}')
 
-            indexes = sorted(self.indexes)
+            indexes = list(self.indexes)
             if len(indexes) == 1:
                 data['range'] = '{0}'.format(indexes[0])
             else:
@@ -238,7 +239,7 @@ class Collection(object):
     def is_contiguous(self):
         '''Return whether entire collection is contiguous.'''
         previous = None
-        for index in sorted(self.indexes):
+        for index in self.indexes:
             if previous is None:
                 previous = index
                 continue
@@ -258,7 +259,7 @@ class Collection(object):
         '''
         missing = set([])
         previous = None
-        for index in sorted(self.indexes):
+        for index in self.indexes:
             if previous is None:
                 previous = index
                 continue
@@ -310,7 +311,7 @@ class Collection(object):
         start = None
         end = None
 
-        for index in sorted(self.indexes):
+        for index in self.indexes:
             if start is None:
                 start = index
                 end = start
