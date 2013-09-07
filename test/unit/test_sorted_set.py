@@ -76,3 +76,10 @@ def test_discard(sorted_set, item):
     '''Discard item.'''
     sorted_set.discard(item)
     assert item not in sorted_set
+
+
+def test_iter():
+    '''Iterate over ordered items.'''
+    sorted_set = SortedSet([5, 2, 3, 4, 8, 9, 1, 1])
+    assert list(sorted_set) == [1, 2, 3, 4, 5, 8, 9]
+
