@@ -7,6 +7,18 @@ import pytest
 from clique.sorted_set import SortedSet
 
 
+def test_str():
+    '''String representation.'''
+    sorted_set = SortedSet([1, 3, 2])
+    assert str(sorted_set) == '[1, 2, 3]'
+
+
+def test_repr():
+    '''Repr representation.'''
+    sorted_set = SortedSet([1, 3, 2])
+    assert repr(sorted_set) == '<SortedSet "[1, 2, 3]">'
+
+
 @pytest.mark.parametrize(('sorted_set', 'item', 'expected'), [
     (SortedSet([1]), 1, True),
     (SortedSet([1]), 10, False)

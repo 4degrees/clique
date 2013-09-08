@@ -16,6 +16,14 @@ class SortedSet(collections.MutableSet):
         if iterable:
             self.update(iterable)
 
+    def __str__(self):
+        '''Return string representation.'''
+        return str(self._members)
+
+    def __repr__(self):
+        '''Return representation.'''
+        return '<{0} "{1}">'.format(self.__class__.__name__, self)
+
     def __contains__(self, item):
         '''Return whether *item* is present.'''
         return self._index(item) >= 0
