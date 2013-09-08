@@ -14,4 +14,5 @@ Overview and examples of using the system in practice.
     introduction
     installation
     tutorial
-
+    assembly
+    collection

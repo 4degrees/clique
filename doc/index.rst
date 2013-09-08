@@ -6,7 +6,7 @@
 Clique
 ######
 
-Manage collections with common sequential number component.
+Manage collections with common numerical component.
 
 .. toctree::
     :maxdepth: 2

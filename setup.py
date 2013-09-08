@@ -38,9 +38,9 @@ with open(os.path.join(
 setup(
     name='Clique',
     version=_version,
-    description='Manage collections with common sequential number component.',
+    description='Manage collections with common numerical component.',
     long_description=open('README.rst').read(),
-    keywords='sequence, pattern, filesystem',
+    keywords='sequence, pattern, filesystem, collection, numerical',
     url='https://github.com/4degrees/clique',
     author='Martin Pengelly-Phillips',
     author_email='martin@4degrees.ltd.uk',
