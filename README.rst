@@ -2,7 +2,9 @@
 Clique
 ######
 
-Manage collections with common numerical component::
+Manage collections with common numerical component.
+
+.. code-block:: python
 
     >>> import os
     >>> import clique
