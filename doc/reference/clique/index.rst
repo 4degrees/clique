@@ -12,5 +12,6 @@
 
     collection
     error
+    sorted_set
     descriptor
 
