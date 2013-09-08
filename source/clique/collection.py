@@ -47,7 +47,7 @@ class Collection(object):
         self._head = head
         self._tail = tail
         self.padding = padding
-        self._update_pattern()
+        self._update_expression()
 
         if indexes is not None:
             self.indexes.update(indexes)
@@ -61,7 +61,7 @@ class Collection(object):
     def head(self, value):
         '''Set common leading part to *value*.'''
         self._head = value
-        self._update_pattern()
+        self._update_expression()
 
     @property
     def tail(self):
@@ -72,11 +72,11 @@ class Collection(object):
     def tail(self, value):
         '''Set common trailing part to *value*.'''
         self._tail = value
-        self._update_pattern()
+        self._update_expression()
 
-    def _update_pattern(self):
-        '''Update internal pattern.'''
-        self._pattern = re.compile('^{0}(?P<index>(?P<padding>0*)\d+?){1}$'
+    def _update_expression(self):
+        '''Update internal expression.'''
+        self._expression = re.compile('^{0}(?P<index>(?P<padding>0*)\d+?){1}$'
                                    .format(self.head, self.tail))
 
     def __str__(self):
@@ -166,13 +166,13 @@ class Collection(object):
         return result
 
     def match(self, item):
-        '''Return whether *item* matches this collection pattern.
+        '''Return whether *item* matches this collection expression.
 
         If a match is successful return data about the match otherwise return
         None.
 
         '''
-        match = self._pattern.match(item)
+        match = self._expression.match(item)
         if not match:
             return None
 
@@ -200,7 +200,7 @@ class Collection(object):
         match = self.match(item)
         if match is None:
             raise clique.error.CollectionError(
-                'Item does not match sequence pattern.'
+                'Item does not match sequence expression.'
             )
 
         self.indexes.add(int(match.group('index')))

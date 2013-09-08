@@ -48,12 +48,12 @@ def test_change_property(name, value, pattern, item):
     setattr(collection, name, value)
     assert getattr(collection, name) == value
 
-    assert collection._pattern.pattern == pattern
+    assert collection._expression.pattern == pattern
     assert list(collection)[0] == item
 
 
 def test_unsettable_indexes():
-    '''Set new indexes by property assignment.'''
+    '''Set new indexes by attribute assignment.'''
     collection = Collection('head.', '.tail', 0, indexes=set([1]))
     with pytest.raises(AttributeError):
         collection.indexes = [1, 3]
