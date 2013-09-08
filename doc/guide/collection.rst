@@ -14,21 +14,22 @@ whose value differs between each item.
 
 Each collection comprises three main attributes:
 
-    * head - The common leading part of each item.
-    * tail - The common trailing part of each item.
-    * padding - The width of the index (to be padded to with zeros).
+    * :term:`head` - The common leading part of each item.
+    * :term:`tail` - The common trailing part of each item.
+    * :term:`padding` - The width of the index (to be padded to with zeros).
 
 Given items such as:
 
     * file.0001.jpg
     * file.0002.jpg
 
-The head would be ``file.``, the tail ``.jpg`` and the padding ``4``.
+The :term:`head` would be ``file.``, the :term:`tail` ``.jpg`` and the
+:term:`padding` ``4``.
 
 .. note::
 
-    If the numerical component is unpadded then the padding would be 0 and
-    a variable index width supported.
+    If the numerical component is unpadded then the :term:`padding` would be 0
+    and a variable index width supported.
 
 A collection can be manually created using the :py:class:`~Collection` class::
 
@@ -91,8 +92,8 @@ Manipulating Indexes
 --------------------
 
 Internally, Clique does not store the items directly, but rather just the
-properties to recreate the items (head, tail, padding). In addition it
-holds a sorted set of indexes present in the collection.
+properties to recreate the items (:term:`head`, :term:`tail`, :term:`padding`).
+In addition it holds a sorted set of indexes present in the collection.
 
 This set of indexes can be manipulated directly to perform the equivalent of
 adding and removing items (perhaps in bulk).
@@ -139,9 +140,9 @@ alternative pattern if required::
 The passed pattern should match the formatting rules of Python's standard
 string formatter and will have the following keyword variables available to it:
 
-    * *head* - Common leading part of the collection.
-    * *tail* - Common trailing part of the collection.
-    * *padding* - Padding value in ``%0d`` format.
+    * *:term:`head`* - Common leading part of the collection.
+    * *:term:`tail`* - Common trailing part of the collection.
+    * *:term:`padding`* - Padding value in ``%0d`` format.
     * *range* - Total range in the form ``start-end``
     * *ranges* - Comma separated ranges of indexes.
     * *holes* - Comma separated ranges of missing indexes.
