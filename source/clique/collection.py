@@ -200,7 +200,7 @@ class Collection(object):
         match = self.match(item)
         if match is None:
             raise clique.error.CollectionError(
-                'Item does not match sequence expression.'
+                'Item does not match collection expression.'
             )
 
         self.indexes.add(int(match.group('index')))
@@ -214,13 +214,17 @@ class Collection(object):
         '''
         match = self.match(item)
         if match is None:
-            raise clique.error.CollectionError('Item not present in sequence.')
+            raise clique.error.CollectionError(
+                'Item not present in collection.'
+            )
 
         index = int(match.group('index'))
         try:
             self.indexes.remove(index)
         except KeyError:
-            raise clique.error.CollectionError('Item not present in sequence.')
+            raise clique.error.CollectionError(
+                'Item not present in collection.'
+            )
 
     def format(self, pattern='{head}{padding}{tail} [{ranges}]'):
         '''Return string representation as specified by *pattern*.
