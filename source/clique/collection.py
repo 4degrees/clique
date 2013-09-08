@@ -4,17 +4,12 @@
 
 import re
 
-import clique.descriptor
 import clique.error
 import clique.sorted_set
 
 
 class Collection(object):
     '''Represent group of items that differ only by numerical component.'''
-
-    head = clique.descriptor.Unsettable('head')
-    tail = clique.descriptor.Unsettable('tail')
-    padding = clique.descriptor.Unsettable('padding')
 
     def __init__(self, head, tail, padding, indexes=None):
         '''Initialise collection.
@@ -32,15 +27,40 @@ class Collection(object):
 
         '''
         super(Collection, self).__init__()
-        self.__dict__.update({
-            'head': head,
-            'tail': tail,
-            'padding': padding
-        })
+        self._head = head
+        self._tail = tail
+        self.padding = padding
+
         self.indexes = clique.sorted_set.SortedSet()
         if indexes is not None:
             self.indexes.update(indexes)
 
+        self._update_pattern()
+
+    @property
+    def head(self):
+        '''Return common leading part.'''
+        return self._head
+
+    @head.setter
+    def head(self, value):
+        '''Set common leading part to *value*.'''
+        self._head = value
+        self._update_pattern()
+
+    @property
+    def tail(self):
+        '''Return common trailing part.'''
+        return self._tail
+
+    @tail.setter
+    def tail(self, value):
+        '''Set common trailing part to *value*.'''
+        self._tail = value
+        self._update_pattern()
+
+    def _update_pattern(self):
+        '''Update internal pattern.'''
         self._pattern = re.compile('^{0}(?P<index>(?P<padding>0*)\d+?){1}$'
                                    .format(self.head, self.tail))
 

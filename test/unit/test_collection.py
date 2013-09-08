@@ -20,6 +20,38 @@ def PaddedCollection(**kw):
     return Collection('/head.', '.ext', padding=4, **kw)
 
 
+@pytest.mark.parametrize(('name', 'value', 'pattern', 'item'), [
+    (
+     'head',
+     'diff_head.',
+     '^diff_head.(?P<index>(?P<padding>0*)\d+?).tail$',
+     'diff_head.1.tail'
+    ),
+
+    (
+     'tail',
+     '.diff_tail',
+     '^head.(?P<index>(?P<padding>0*)\d+?).diff_tail$',
+     'head.1.diff_tail'
+    ),
+    (
+     'padding',
+     4,
+     '^head.(?P<index>(?P<padding>0*)\d+?).tail$',
+     'head.0001.tail'
+    )
+])
+def test_change_property(name, value, pattern, item):
+    '''Change property.'''
+    collection = Collection('head.', '.tail', 0, indexes=set([1]))
+
+    setattr(collection, name, value)
+    assert getattr(collection, name) == value
+
+    assert collection._pattern.pattern == pattern
+    assert list(collection)[0] == item
+
+
 def test_str():
     '''String representation.'''
     collection = Collection('head.', '.tail', 0, indexes=set([1, 2, 3]))
