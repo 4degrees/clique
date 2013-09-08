@@ -25,8 +25,8 @@ First, import clique::
 
     >>> import clique
 
-Then define the items to assemble (could be the result of ``os.listdir`` for
-example)::
+Then define the items to assemble (could be the result of :py:func:`os.listdir`
+for example)::
 
     >>> items = ['file.0001.jpg', '_cache.txt', 'file.0002.jpg',
     ...          'foo.1.txt', 'file.0002.dpx', 'file.0001.dpx',

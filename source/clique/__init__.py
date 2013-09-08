@@ -35,7 +35,7 @@ def assemble(iterable, patterns=None, minimum_items=2):
     .. note::
 
         If a pattern is supplied as a string it will be automatically compiled
-        to a regular expression for convenience.
+        to a :py:class:`re.RegexObject` instance for convenience.
 
     When *patterns* is not specified, collections are formed by examining all
     possible groupings of the items in *iterable* based around common numerical
