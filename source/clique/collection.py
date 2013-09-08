@@ -4,12 +4,15 @@
 
 import re
 
+import clique.descriptor
 import clique.error
 import clique.sorted_set
 
 
 class Collection(object):
     '''Represent group of items that differ only by numerical component.'''
+
+    indexes = clique.descriptor.Unsettable('indexes')
 
     def __init__(self, head, tail, padding, indexes=None):
         '''Initialise collection.
@@ -25,17 +28,29 @@ class Collection(object):
         *indexes* can specify a set of numerical indexes to initially populate
         the collection with.
 
+        .. note::
+
+            After instantiation, the ``indexes`` attribute cannot be set to a
+            new value using assignment::
+
+                >>> collection.indexes = [1, 2, 3]
+                AttributeError: Cannot set attribute defined as unsettable.
+
+            Instead, manipulate it directly::
+
+                >>> collection.indexes.clear()
+                >>> collection.indexes.update([1, 2, 3])
+
         '''
         super(Collection, self).__init__()
+        self.__dict__['indexes'] = clique.sorted_set.SortedSet()
         self._head = head
         self._tail = tail
         self.padding = padding
+        self._update_pattern()
 
-        self.indexes = clique.sorted_set.SortedSet()
         if indexes is not None:
             self.indexes.update(indexes)
-
-        self._update_pattern()
 
     @property
     def head(self):

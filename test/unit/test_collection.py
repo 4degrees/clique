@@ -52,6 +52,13 @@ def test_change_property(name, value, pattern, item):
     assert list(collection)[0] == item
 
 
+def test_unsettable_indexes():
+    '''Set new indexes by property assignment.'''
+    collection = Collection('head.', '.tail', 0, indexes=set([1]))
+    with pytest.raises(AttributeError):
+        collection.indexes = [1, 3]
+
+
 def test_str():
     '''String representation.'''
     collection = Collection('head.', '.tail', 0, indexes=set([1, 2, 3]))
