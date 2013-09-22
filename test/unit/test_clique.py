@@ -105,13 +105,34 @@ def test_assemble_minimum_items_filter():
     assert collections == expected
 
 
-def test_assemble_boundary_padding():
+@pytest.mark.parametrize(('items', 'expected'), [
+    (
+        ['0999', '1000', '1001', '9999'],
+        [
+            clique.Collection('', '', 4, indexes=set([999, 1000, 1001, 9999]))
+        ]
+    ),
+    (
+        ['999', '0999', '1000', '1001', '9999'],
+        [
+            clique.Collection('', '', 4, indexes=set([999, 1000, 1001, 9999])),
+            clique.Collection('', '', 0, indexes=set([999, 1000, 1001, 9999]))
+        ]
+    ),
+    (
+        ['0999', '1000', '9999', '10001'],
+        [
+            clique.Collection('', '', 4, indexes=set([999, 1000, 9999])),
+            clique.Collection('', '', 0, indexes=set([1000, 9999, 10001]))
+        ]
+    )
+], ids=[
+    'padding boundary aligned',
+    'ambiguous padding boundary',
+    'non-padding boundary indexes'
+])
+def test_assemble_boundary_padding(items, expected):
     '''Assemble items across a padding boundary.'''
-    items = ['0998', '0999', '1000', '1001', '9999']
     collections = clique.assemble(items)
-    expected = [
-        clique.Collection('', '', 4, indexes=set([998, 999, 1000, 1001, 9999]))
-    ]
-
     assert sorted(collections) == sorted(expected)
 
