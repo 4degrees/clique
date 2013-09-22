@@ -104,3 +104,14 @@ def test_assemble_minimum_items_filter():
     expected = []
     assert collections == expected
 
+
+def test_assemble_boundary_padding():
+    '''Assemble items across a padding boundary.'''
+    items = ['0998', '0999', '1000', '1001', '9999']
+    collections = clique.assemble(items)
+    expected = [
+        clique.Collection('', '', 4, indexes=set([998, 999, 1000, 1001, 9999]))
+    ]
+
+    assert sorted(collections) == sorted(expected)
+
