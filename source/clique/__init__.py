@@ -86,13 +86,46 @@ def assemble(iterable, patterns=None, minimum_items=2):
                 key = (head, tail, padding)
                 collection_map[key].add(int(index))
 
-    # Form collections, filtering out those that do not have at least
-    # as many indexes as minimum_items
+    # Form collections.
+    merge_candidates = []
     for (head, tail, padding), indexes in collection_map.items():
-        if len(indexes) >= minimum_items:
-            collections.append(
-                Collection(head, tail, padding, indexes)
-            )
+            collection = Collection(head, tail, padding, indexes)
+            collections.append(collection)
+
+            if collection.padding == 0:
+                merge_candidates.append(collection)
+
+    # Merge together collections that align on padding boundaries. For example,
+    # 0998-0999 and 1000-1001 can be merged into 0998-1001. Note that only
+    # indexes within the padding width limit are merged. If a collection is
+    # entirely merged into another then it will not be included as a separate
+    # collection in the results.
+    fully_merged = []
+    for collection in collections:
+        if collection.padding == 0:
+            continue
+
+        for candidate in merge_candidates:
+            if (candidate.head == collection.head and
+                candidate.tail == collection.tail):
+
+                merged_index_count = 0
+                for index in candidate.indexes:
+                    if len(str(abs(index))) == collection.padding:
+                        collection.indexes.add(index)
+                        merged_index_count += 1
+
+                if merged_index_count == len(candidate.indexes):
+                    fully_merged.append(candidate)
+
+    # Filter out fully merged collections.
+    collections = [collection for collection in collections
+                   if collection not in fully_merged]
+
+    # Filter out collections that do not have at least as many indexes as
+    # minimum_items
+    collections = [collection for collection in collections
+                   if len(collection.indexes) >= minimum_items]
 
     return collections
 
