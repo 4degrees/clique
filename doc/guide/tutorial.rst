@@ -34,7 +34,7 @@ for example)::
 
 Finally, assemble them into collections::
 
-    >>> collections = clique.assemble(items)
+    >>> collections, remainder = clique.assemble(items)
     >>> for collection in collections:
     ...     print repr(collection)
     <Collection "scene_v%d.ma [1-2]">
@@ -42,13 +42,13 @@ Finally, assemble them into collections::
     <Collection "file.%04d.jpg [1-2]">
 
 Notice how the items ``_cache.txt`` and ``foo.1.txt`` didn't form any
-collections. This is because ``_cache.txt`` has no numerical component and
-was ignored, whilst ``foo.1.txt`` resulted in a collection with only one
-item and was filtered out of the result.
+collections (and were added to ``remainder``). This is because ``_cache.txt``
+has no numerical component and was ignored, whilst ``foo.1.txt`` resulted in a
+collection with only one item and was filtered out of the result.
 
 The minimum items filter can be altered at assembly time::
 
-    >>> collections = clique.assemble(items, minimum_items=1)
+    >>> collections, remainder = clique.assemble(items, minimum_items=1)
     >>> for collection in collections:
     ...     print repr(collection)
     <Collection "scene_v%d.ma [1-2]">

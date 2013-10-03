@@ -15,19 +15,24 @@ relevant :ref:`collections <collection>` based on a common changing
 numerical component::
 
     >>> import clique
-    >>> collections = clique.assemble([
+    >>> collections, remainder = clique.assemble([
     ...     'file.0001.jpg', 'file.0002.jpg', 'file.0003.jpg',
     ...     'file.0001.dpx', 'file.0002.dpx', 'file.0003.dpx'
     ... ])
     >>> print collections
     [<Collection "file.%04d.dpx [1-3]">, <Collection "file.%04d.jpg [1-3]">]
 
+.. note::
+
+    Any items that are not members of a returned collection can be found in
+    the *remainder* list.
+
 However, as mentioned in the :ref:`introduction`, Clique has no understanding
 of what a numerical component represents. Therefore, it takes a conservative
 approach and considers **all** collections with a common changing numerical
 component as valid. This can lead to surprising results at first::
 
-    >>> collections = clique.assemble([
+    >>> collections, remainder = clique.assemble([
     ...     'file_v1.0001.jpg', 'file_v1.0002.jpg', 'file_v1.0003.jpg',
     ...     'file_v2.0001.jpg', 'file_v2.0002.jpg', 'file_v2.0003.jpg'
     ... ])
@@ -56,9 +61,9 @@ By default, Clique will filter out any collection from the returned result of
 :py:func:`~assemble` that has less than two items. This value can be customised
 per :py:func:`~assemble` call by passing *minimum_items* as a keyword::
 
-    >>> print clique.assemble(['file.0001.jpg'])
+    >>> print clique.assemble(['file.0001.jpg'])[0]
     []
-    >>> print clique.assemble(['file.0001.jpg'], minimum_items=1)
+    >>> print clique.assemble(['file.0001.jpg'], minimum_items=1)[0]
     [<Collection "file.%04d.jpg [1]">]
 
 Patterns
@@ -77,7 +82,7 @@ regular expressions (either strings or :py:class:`re.RegexObject` instances)::
     ... ])
     >>> print clique.assemble(items, patterns=[
     ...     '\.(?P<index>(?P<padding>0*)\d+)\.\D+\d?$'
-    ... ])
+    ... ])[0]
     [<Collection "file_v1.%04d.jpg [1-3]">,
      <Collection "file_v2.%04d.jpg [1-3]">]
 
@@ -98,7 +103,7 @@ regular expressions (either strings or :py:class:`re.RegexObject` instances)::
 Some common expressions are predefined in the :py:data:`~clique.PATTERNS`
 dictionary (contributions welcome!)::
 
-    >>> print clique.assemble(items, patterns=[clique.PATTERNS['frames']])
+>>> print clique.assemble(items, patterns=[clique.PATTERNS['frames']])[0]
     [<Collection "file_v1.%04d.jpg [1-3]">,
      <Collection "file_v2.%04d.jpg [1-3]">]
 
