@@ -45,19 +45,21 @@ def assemble(iterable, patterns=None, minimum_items=2):
     in order to be included in the result. The default is 2, filtering out
     single item collections.
 
-    Return list of assembled :py:class:`~clique.collection.Collection`
-    instances.
+    Return tuple of two lists (collections, remainder) where 'collections' is a
+    list of assembled :py:class:`~clique.collection.Collection` instances and
+    'remainder' is a list of items that did not belong to any collection.
 
     '''
     collection_map = defaultdict(set)
     collections = []
+    remainder = []
 
     # Compile patterns.
     compiled_patterns = []
 
     if patterns is not None:
         if not patterns:
-            return collections
+            return collections, list(iterable)
 
         for pattern in patterns:
             if isinstance(pattern, basestring):
@@ -70,6 +72,8 @@ def assemble(iterable, patterns=None, minimum_items=2):
 
     # Process iterable.
     for item in iterable:
+        matched = False
+
         for pattern in compiled_patterns:
             for match in pattern.finditer(item):
                 index = match.group('index')
@@ -85,6 +89,10 @@ def assemble(iterable, patterns=None, minimum_items=2):
 
                 key = (head, tail, padding)
                 collection_map[key].add(int(index))
+                matched = True
+
+        if not matched:
+            remainder.append(item)
 
     # Form collections.
     merge_candidates = []
@@ -123,9 +131,26 @@ def assemble(iterable, patterns=None, minimum_items=2):
                    if collection not in fully_merged]
 
     # Filter out collections that do not have at least as many indexes as
-    # minimum_items
-    collections = [collection for collection in collections
-                   if len(collection.indexes) >= minimum_items]
+    # minimum_items. In addition, add any members of a filtered collection,
+    # which are not members of an unfiltered collection, to the remainder.
+    filtered = []
+    remainder_candidates = []
+    for collection in collections:
+        if len(collection.indexes) >= minimum_items:
+            filtered.append(collection)
+        else:
+            for member in collection:
+                remainder_candidates.append(member)
 
-    return collections
+    for candidate in remainder_candidates:
+        has_membership = False
 
+        for collection in filtered:
+            if candidate in collection:
+                has_membership = True
+                break
+
+        if not has_membership:
+            remainder.append(candidate)
+
+    return filtered, remainder
