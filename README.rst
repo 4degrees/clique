@@ -8,7 +8,8 @@ Manage collections with common numerical component.
 
     >>> import os
     >>> import clique
-    >>> for collection in clique.assemble(os.listdir('.')):
+    >>> collections, remainder = clique.assemble(os.listdir('.'))
+    >>> for collection in collections:
     ...     print collection
     file.%04d.jpg [1-5, 8, 10-15]
     file.%04d.dpx [1-15]
