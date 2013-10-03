@@ -24,20 +24,20 @@ def PaddedCollection(**kw):
     (
      'head',
      'diff_head.',
-     '^diff_head.(?P<index>(?P<padding>0*)\d+?).tail$',
+     '^diff\\_head\\.(?P<index>(?P<padding>0*)\d+?)\\.tail$',
      'diff_head.1.tail'
     ),
 
     (
      'tail',
      '.diff_tail',
-     '^head.(?P<index>(?P<padding>0*)\d+?).diff_tail$',
+     '^head\\.(?P<index>(?P<padding>0*)\d+?)\\.diff\\_tail$',
      'head.1.diff_tail'
     ),
     (
      'padding',
      4,
-     '^head.(?P<index>(?P<padding>0*)\d+?).tail$',
+     '^head\\.(?P<index>(?P<padding>0*)\d+?)\\.tail$',
      'head.0001.tail'
     )
 ])
