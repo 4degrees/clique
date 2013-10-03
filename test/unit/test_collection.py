@@ -363,3 +363,8 @@ def test_separate(collection, expected):
         for index, indexes in enumerate(expected):
             assert parts[index].indexes == indexes
 
+
+def test_escaping_expression():
+    '''Escape non-regular expression components.'''
+    collection = Collection('prefix\\file.', '.ext', 1, [1])
+    assert 'prefix\\file.1.ext' in collection
