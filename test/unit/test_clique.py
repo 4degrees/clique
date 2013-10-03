@@ -26,7 +26,7 @@ def test_assemble():
         'head1_020_v1.0001.tail', 'head1_020_v1.0002.tail'
     ]
     
-    collections = clique.assemble(items)
+    collections, remainder = clique.assemble(items)
 
     expected = [
         clique.Collection('', '', 0, indexes=set([1, 3])),
@@ -49,15 +49,18 @@ def test_assemble():
 
     assert sorted(collections) == sorted(expected)
 
+    expected = ['file.ext', 'single.1.ext']
+    assert sorted(remainder) == sorted(expected)
+
 
 def test_assemble_no_patterns():
     '''Assemble with no patterns.'''
-    assert clique.assemble(['1', '2'], patterns=[]) == []
+    assert clique.assemble(['1', '2'], patterns=[]) == ([], ['1', '2'])
 
 
 def test_assemble_with_custom_pattern():
     '''Assemble with custom pattern.'''
-    collections = clique.assemble(
+    collections, _ = clique.assemble(
         ['head_v1.001.ext', 'head_v1.002.ext'],
         patterns=[re.compile('\.{0}\.ext$'.format(clique.DIGITS_PATTERN))]
     )
@@ -68,7 +71,7 @@ def test_assemble_with_custom_pattern():
 
 def test_assemble_compile_pattern():
     '''Compile string based custom pattern.'''
-    collections = clique.assemble(
+    collections, _ = clique.assemble(
         ['head_v1.001.ext', 'head_v1.002.ext'],
         patterns=['\.{0}\.ext$'.format(clique.DIGITS_PATTERN)]
     )
@@ -84,7 +87,7 @@ def test_assemble_minimum_items_filter():
         'head_v2.001.ext', 'head_v2.002.ext'
     ]
 
-    collections = clique.assemble(items, minimum_items=1)
+    collections, _ = clique.assemble(items, minimum_items=1)
     expected = [
         clique.Collection('head_v', '.001.ext', 0, indexes=set([1, 2])),
         clique.Collection('head_v', '.002.ext', 0, indexes=set([1, 2])),
@@ -94,13 +97,13 @@ def test_assemble_minimum_items_filter():
     ]
     assert sorted(collections) == sorted(expected)
 
-    collections = clique.assemble(items, minimum_items=3)
+    collections, _ = clique.assemble(items, minimum_items=3)
     expected = [
         clique.Collection('head_v1.', '.ext', 3, indexes=set([1, 2, 3]))
     ]
     assert collections == expected
 
-    collections = clique.assemble(items, minimum_items=5)
+    collections, _ = clique.assemble(items, minimum_items=5)
     expected = []
     assert collections == expected
 
@@ -133,6 +136,6 @@ def test_assemble_minimum_items_filter():
 ])
 def test_assemble_boundary_padding(items, expected):
     '''Assemble items across a padding boundary.'''
-    collections = clique.assemble(items)
+    collections, _ = clique.assemble(items)
     assert sorted(collections) == sorted(expected)
 
