@@ -139,3 +139,17 @@ def test_assemble_boundary_padding(items, expected):
     collections, _ = clique.assemble(items)
     assert sorted(collections) == sorted(expected)
 
+
+@pytest.mark.parametrize(('value', 'expected'), [
+    ('/path/to/file.%04d.ext [1-3, 5, 7-8]',
+     clique.Collection('/path/to/file.', '.ext', 4, [1, 2, 3, 5, 7, 8])),
+    ('/path/to/file.%d.ext [1-3, 5, 7-8]',
+     clique.Collection('/path/to/file.', '.ext', 0, [1, 2, 3, 5, 7, 8])),
+
+], ids=[
+    'padded',
+    'unpadded'
+])
+def test_parse(value, expected):
+    '''Construct collection by parsing formatted string.'''
+    assert clique.parse(value) == expected
