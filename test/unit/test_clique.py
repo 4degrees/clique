@@ -140,16 +140,23 @@ def test_assemble_boundary_padding(items, expected):
     assert sorted(collections) == sorted(expected)
 
 
-@pytest.mark.parametrize(('value', 'expected'), [
-    ('/path/to/file.%04d.ext [1-3, 5, 7-8]',
+@pytest.mark.parametrize(('value', 'pattern', 'expected'), [
+    ('/path/to/file.%04d.ext [1-3, 5, 7-8]', None,
      clique.Collection('/path/to/file.', '.ext', 4, [1, 2, 3, 5, 7, 8])),
-    ('/path/to/file.%d.ext [1-3, 5, 7-8]',
+    ('/path/to/file.%d.ext [1-3, 5, 7-8]', None,
      clique.Collection('/path/to/file.', '.ext', 0, [1, 2, 3, 5, 7, 8])),
-
+    ('/path/to/file.%d.ext 1-8 [2, 4-6]',
+     '{head}{padding}{tail} {range} [{holes}]',
+     clique.Collection('/path/to/file.', '.ext', 0, [1, 3, 7, 8])),
 ], ids=[
     'padded',
-    'unpadded'
+    'unpadded',
+    'custom range pattern',
+    'custom holes pattern'
 ])
-def test_parse(value, expected):
+def test_parse(value, pattern, expected):
     '''Construct collection by parsing formatted string.'''
-    assert clique.parse(value) == expected
+    if pattern is None:
+        assert clique.parse(value) == expected
+    else:
+        assert clique.parse(value, pattern=pattern) == expected
