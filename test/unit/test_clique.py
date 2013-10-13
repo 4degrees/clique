@@ -160,3 +160,9 @@ def test_parse(value, pattern, expected):
         assert clique.parse(value) == expected
     else:
         assert clique.parse(value, pattern=pattern) == expected
+
+
+def test_non_matching_parse():
+    '''Fail to parse non-matching value.'''
+    with pytest.raises(ValueError):
+        clique.parse('')
