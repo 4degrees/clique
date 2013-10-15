@@ -77,4 +77,19 @@ contains::
 
     There is a full guide to :ref:`collection` available.
 
+It is also possible to parse a string (such as that returned from
+:py:meth:`Collection.format <collection.Collection.format>`) to create a
+collection. To do this, use the :py:func:`parse` function::
 
+    >>> collection = clique.parse('/path/to/file.%04d.ext [1, 2, 5-10]')
+    >>> print repr(collection)
+    <Collection "/path/to/file.%04d.ext [1-2, 5-10]">
+
+It is also possible to pass in a different pattern to the default one::
+
+    >>> collection = clique.parse(
+    ...     '/path/to/file.%04d.ext [1-10] (2, 8)'
+    ...     '{head}{padding}{tail} [{range}] ({holes})'
+    ... )
+    >>> print repr(collection)
+    <Collection "/path/to/file.%04d.ext [1, 3-7, 9-10]">
