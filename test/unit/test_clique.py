@@ -145,9 +145,12 @@ def test_assemble_boundary_padding(items, expected):
      clique.Collection('/path/to/file.', '.ext', 4, [1, 2, 3, 5, 7, 8])),
     ('/path/to/file.%d.ext [1-3, 5, 7-8]', None,
      clique.Collection('/path/to/file.', '.ext', 0, [1, 2, 3, 5, 7, 8])),
+    ('/path/to/file.%d.ext 1-8',
+     '{head}{padding}{tail} {range}',
+     clique.Collection('/path/to/file.', '.ext', 0, [1, 2, 3, 4, 5, 6, 7, 8])),
     ('/path/to/file.%d.ext 1-8 [2, 4-6]',
      '{head}{padding}{tail} {range} [{holes}]',
-     clique.Collection('/path/to/file.', '.ext', 0, [1, 3, 7, 8])),
+     clique.Collection('/path/to/file.', '.ext', 0, [1, 3, 7, 8]))
 ], ids=[
     'padded',
     'unpadded',
