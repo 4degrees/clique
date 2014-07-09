@@ -143,6 +143,11 @@ def assemble(iterable, patterns=None, minimum_items=2):
                 remainder_candidates.append(member)
 
     for candidate in remainder_candidates:
+        # Check if candidate has already been added to remainder to avoid
+        # duplicate entries.
+        if candidate in remainder:
+            continue
+
         has_membership = False
 
         for collection in filtered:

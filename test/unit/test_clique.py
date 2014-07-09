@@ -140,14 +140,24 @@ def test_assemble_boundary_padding(items, expected):
     assert sorted(collections) == sorted(expected)
 
 
+def test_assemble_remainder_has_no_duplicates():
+    '''Assemble items and check remainder contains no duplicates.'''
+    items = ['00-11-22-33-44-55.jpg']
+    collections, remainder = clique.assemble(items, minimum_items=2)
+    assert remainder == items
+
+
 @pytest.mark.parametrize(('value', 'pattern', 'expected'), [
     ('/path/to/file.%04d.ext [1-3, 5, 7-8]', None,
      clique.Collection('/path/to/file.', '.ext', 4, [1, 2, 3, 5, 7, 8])),
     ('/path/to/file.%d.ext [1-3, 5, 7-8]', None,
      clique.Collection('/path/to/file.', '.ext', 0, [1, 2, 3, 5, 7, 8])),
+    ('/path/to/file.%d.ext 1-8',
+     '{head}{padding}{tail} {range}',
+     clique.Collection('/path/to/file.', '.ext', 0, [1, 2, 3, 4, 5, 6, 7, 8])),
     ('/path/to/file.%d.ext 1-8 [2, 4-6]',
      '{head}{padding}{tail} {range} [{holes}]',
-     clique.Collection('/path/to/file.', '.ext', 0, [1, 3, 7, 8])),
+     clique.Collection('/path/to/file.', '.ext', 0, [1, 3, 7, 8]))
 ], ids=[
     'padded',
     'unpadded',
