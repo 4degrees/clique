@@ -107,3 +107,27 @@ dictionary (contributions welcome!)::
     [<Collection "file_v1.%04d.jpg [1-3]">,
      <Collection "file_v2.%04d.jpg [1-3]">]
 
+Case Sensitivity
+----------------
+
+When assembling collections, it is sometimes useful to be able to specify
+whether the case of the items should be important or not. For example,
+"file.0001.jpg" and "FILE.0002.jpg" could be identified as part of the same
+collection or not.
+
+By default the assembly is case sensitive, but this can be controlled by setting
+the *case_sensitive* argument::
+
+    >>> items = ['file.0001.jpg', 'FILE.0002.jpg', 'file.0003.jpg']
+    >>> print clique.assemble(items, case_sensitive=False)
+    [<Collection "file.%04d.jpg [1-3]">], []
+    >>> print clique.assemble(items, case_sensitive=True)
+    [<Collection "file.%04d.jpg [1, 3]">], ['FILE.0002.jpg']
+
+A common use case might be to ignore case sensitivity when on a Windows or Mac
+machine::
+
+    >>> import sys
+    >>> clique.assemble(
+    ...     items, case_sensitive=sys.platform not in ('win32', 'darwin')
+    ... )
