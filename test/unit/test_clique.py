@@ -53,6 +53,36 @@ def test_assemble():
     assert sorted(remainder) == sorted(expected)
 
 
+def test_assemble_case_sensitive():
+    '''Assemble collections respecting casing.'''
+    collections, _ = clique.assemble(
+        [
+            'head_v1.001.ext', 'head_v1.002.ext',
+            'HEAD_v1.003.ext', 'HEAD_v1.004.ext'
+        ],
+        case_sensitive=True
+    )
+    expected = [
+        clique.Collection('head_v1.', '.ext', 3, indexes=set([1, 2])),
+        clique.Collection('HEAD_v1.', '.ext', 3, indexes=set([3, 4]))
+    ]
+
+    assert collections == expected
+
+
+def test_assemble_case_insensitive():
+    '''Assemble collections ignoring casing.'''
+    collections, _ = clique.assemble(
+        ['head_v1.001.ext', 'HEAD_v1.002.ext', 'head_v1.003.ext'],
+        case_sensitive=False
+    )
+    expected = [
+        clique.Collection('head_v1.', '.ext', 3, indexes=set([1, 2, 3]))
+    ]
+
+    assert collections == expected
+
+
 def test_assemble_no_patterns():
     '''Assemble with no patterns.'''
     assert clique.assemble(['1', '2'], patterns=[]) == ([], ['1', '2'])
