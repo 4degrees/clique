@@ -103,7 +103,7 @@ regular expressions (either strings or :py:class:`re.RegexObject` instances)::
 Some common expressions are predefined in the :py:data:`~clique.PATTERNS`
 dictionary (contributions welcome!)::
 
->>> print clique.assemble(items, patterns=[clique.PATTERNS['frames']])[0]
+    >>> print clique.assemble(items, patterns=[clique.PATTERNS['frames']])[0]
     [<Collection "file_v1.%04d.jpg [1-3]">,
      <Collection "file_v2.%04d.jpg [1-3]">]
 
