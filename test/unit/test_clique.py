@@ -178,6 +178,8 @@ def test_assemble_remainder_has_no_duplicates():
 
 
 @pytest.mark.parametrize(('value', 'pattern', 'expected'), [
+    ('/path/to/file.%04d.ext []', None,
+     clique.Collection('/path/to/file.', '.ext', 4, [])),
     ('/path/to/file.%04d.ext [1-3, 5, 7-8]', None,
      clique.Collection('/path/to/file.', '.ext', 4, [1, 2, 3, 5, 7, 8])),
     ('/path/to/file.%d.ext [1-3, 5, 7-8]', None,
@@ -189,6 +191,7 @@ def test_assemble_remainder_has_no_duplicates():
      '{head}{padding}{tail} {range} [{holes}]',
      clique.Collection('/path/to/file.', '.ext', 0, [1, 3, 7, 8]))
 ], ids=[
+    'empty',
     'padded',
     'unpadded',
     'custom range pattern',
