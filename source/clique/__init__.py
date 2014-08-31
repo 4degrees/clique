@@ -185,7 +185,7 @@ def parse(value, pattern='{head}{padding}{tail} [{ranges}]'):
         * *head* - Common leading part of the collection.
         * *tail* - Common trailing part of the collection.
         * *padding* - Padding value in ``%0d`` format.
-        * *range* - Total range in the form ``start-end``
+        * *range* - Total range in the form ``start-end``.
         * *ranges* - Comma separated ranges of indexes.
         * *holes* - Comma separated ranges of missing indexes.
 
@@ -199,8 +199,8 @@ def parse(value, pattern='{head}{padding}{tail} [{ranges}]'):
         'head': '(?P<head>.*)',
         'tail': '(?P<tail>.*)',
         'padding': '%(?P<padding>\d*)d',
-        'range': '(?P<range>\d+-\d+)',
-        'ranges': '(?P<ranges>[\d ,\-]+)',
+        'range': '(?P<range>\d+-\d+)?',
+        'ranges': '(?P<ranges>[\d ,\-]+)?',
         'holes': '(?P<holes>[\d ,\-]+)'
     }
 
@@ -230,11 +230,11 @@ def parse(value, pattern='{head}{padding}{tail} [{ranges}]'):
         groups['padding']
     )
 
-    if 'range' in groups:
+    if groups.get('range', None) is not None:
         start, end = map(int, groups['range'].split('-'))
         collection.indexes.update(range(start, end + 1))
 
-    if 'ranges' in groups:
+    if groups.get('ranges', None) is not None:
         parts = [part.strip() for part in groups['ranges'].split(',')]
         for part in parts:
             index_range = map(int, part.split('-', 2))
