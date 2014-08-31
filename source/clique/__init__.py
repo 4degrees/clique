@@ -13,8 +13,6 @@ from .error import CollectionError
 #: Pattern for matching an index with optional padding.
 DIGITS_PATTERN = '(?P<index>(?P<padding>0*)\d+)'
 
-_DIGITS_REGEX = re.compile(DIGITS_PATTERN)
-
 #: Common patterns that can be passed to :py:func:`~clique.assemble`.
 PATTERNS = {
     'frames': '\.{0}\.\D+\d?$'.format(DIGITS_PATTERN),
@@ -22,7 +20,7 @@ PATTERNS = {
 }
 
 
-def assemble(iterable, patterns=None, minimum_items=2):
+def assemble(iterable, patterns=None, minimum_items=2, case_sensitive=True):
     '''Assemble items in *iterable* into discreet collections.
 
     *patterns* may be specified as a list of regular expressions to limit
@@ -45,6 +43,15 @@ def assemble(iterable, patterns=None, minimum_items=2):
     in order to be included in the result. The default is 2, filtering out
     single item collections.
 
+    If *case_sensitive* is False, then items will be treated as part of the same
+    collection when they only differ in casing. To avoid ambiguity, the
+    resulting collection will always be lowercase. For example, "item.0001.dpx"
+    and "Item.0002.dpx" would be part of the same collection, "item.%04d.dpx".
+
+    .. note::
+
+        Any compiled *patterns* will also respect the set case sensitivity.
+
     Return tuple of two lists (collections, remainder) where 'collections' is a
     list of assembled :py:class:`~clique.collection.Collection` instances and
     'remainder' is a list of items that did not belong to any collection.
@@ -55,6 +62,10 @@ def assemble(iterable, patterns=None, minimum_items=2):
     remainder = []
 
     # Compile patterns.
+    flags = 0
+    if not case_sensitive:
+        flags |= re.IGNORECASE
+
     compiled_patterns = []
 
     if patterns is not None:
@@ -63,12 +74,12 @@ def assemble(iterable, patterns=None, minimum_items=2):
 
         for pattern in patterns:
             if isinstance(pattern, basestring):
-                compiled_patterns.append(re.compile(pattern))
+                compiled_patterns.append(re.compile(pattern, flags=flags))
             else:
                 compiled_patterns.append(pattern)
 
     else:
-        compiled_patterns.append(_DIGITS_REGEX)
+        compiled_patterns.append(re.compile(DIGITS_PATTERN, flags=flags))
 
     # Process iterable.
     for item in iterable:
@@ -80,6 +91,10 @@ def assemble(iterable, patterns=None, minimum_items=2):
 
                 head = item[:match.start('index')]
                 tail = item[match.end('index'):]
+
+                if not case_sensitive:
+                    head = head.lower()
+                    tail = tail.lower()
 
                 padding = match.group('padding')
                 if padding:
