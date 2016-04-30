@@ -251,15 +251,25 @@ class Collection(object):
         else:
             data['padding'] = '%d'
 
-        if self.indexes:
+        if '{holes}' in pattern:
             data['holes'] = self.holes().format('{ranges}')
 
+        if '{range}' in pattern or '{ranges}' in pattern:
             indexes = list(self.indexes)
-            if len(indexes) == 1:
-                data['range'] = '{0}'.format(indexes[0])
-            else:
-                data['range'] = '{0}-{1}'.format(indexes[0], indexes[-1])
+            indexes_count = len(indexes)
 
+            if indexes_count == 0:
+                data['range'] = ''
+
+            elif indexes_count == 1:
+                data['range'] = '{0}'.format(indexes[0])
+
+            else:
+                data['range'] = '{0}-{1}'.format(
+                    indexes[0], indexes[-1]
+                )
+
+        if '{ranges}' in pattern:
             separated = self.separate()
             if len(separated) > 1:
                 ranges = [collection.format('{range}')
@@ -269,11 +279,6 @@ class Collection(object):
                 ranges = [data['range']]
 
             data['ranges'] = ', '.join(ranges)
-
-        else:
-            data['holes'] = ''
-            data['range'] = ''
-            data['ranges'] = ''
 
         return pattern.format(**data)
 
