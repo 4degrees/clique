@@ -2,6 +2,7 @@
 # :copyright: Copyright (c) 2013 Martin Pengelly-Phillips
 # :license: See LICENSE.txt.
 
+import sys
 import inspect
 
 import pytest
@@ -242,12 +243,30 @@ def test_remove_non_member():
     (PaddedCollection, '{range}', '1-12'),
     (PaddedCollection, '{ranges}', '1-3, 7, 9-12'),
     (PaddedCollection, '{holes}', '4-6, 8'),
-
 ])
 def test_format(CollectionCls, pattern, expected):
     '''Format collection according to pattern.'''
     collection = CollectionCls(indexes=set([1, 2, 3, 7, 9, 10, 11, 12]))
     assert collection.format(pattern) == expected
+
+
+def test_format_sparse_collection():
+    '''Format sparse collection without recursion error.'''
+    recursion_limit = sys.getrecursionlimit()
+    recursion_error_occurred = False
+
+    try:
+        collection = PaddedCollection(
+            indexes=set(range(0, recursion_limit * 2, 2))
+        )
+        collection.format()
+    except RuntimeError as error:
+        if 'maximum recursion depth exceeded' in str(error):
+            recursion_error_occurred = True
+        else:
+            raise
+
+    assert not recursion_error_occurred
 
 
 @pytest.mark.parametrize(('collection', 'expected'), [
