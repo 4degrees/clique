@@ -27,7 +27,7 @@ Issue tracker
 
 Found a bug? Have an idea on how to make the tool better?
 
-Post it at https://github.com/4degrees/clique/issues
+Post it at https://gitlab.com/4degrees/clique/issues
 
 *********************
 Copyright and license

@@ -18,16 +18,16 @@ of the mirrors::
 
     $ pip install --use-mirrors clique
 
-Alternatively, you may wish to download manually from Github where Clique
-is `actively developed <https://github.com/4degrees/clique>`_.
+Alternatively, you may wish to download manually from Gitlab where Clique
+is `actively developed <https://gitlab.com/4degrees/clique>`_.
 
 You can clone the public repository::
 
-    $ git clone git://github.com/4degrees/clique.git
+    $ git clone git@gitlab.com:4degrees/clique.git
 
 Or download an appropriate
-`tarball <https://github.com/4degrees/clique/tarball/master>`_ or
-`zipball <https://github.com/4degrees/clique/zipball/master>`_
+`zipball
+<https://gitlab.com/4degrees/clique/repository/archive.zip?ref=master>`_
 
 Once you have a copy of the source, you can embed it in your Python package,
 or install it into your site-packages::
@@ -35,7 +35,7 @@ or install it into your site-packages::
     $ python setup.py install
 
 Dependencies
--------------
+------------
 
 * `Python <http://python.org>`_ >= 2.6, < 3
 
