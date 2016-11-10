@@ -6,8 +6,15 @@
 
 import os
 import re
+import sys
 
 # -- General ------------------------------------------------------------------
+
+# Inject source onto path so that autodoc can find it by default, but in such a
+# way as to allow overriding location.
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'source'))
+)
 
 # Extensions
 extensions = [
