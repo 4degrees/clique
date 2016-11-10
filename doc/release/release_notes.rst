@@ -33,7 +33,7 @@ Release Notes
 .. release:: 1.2.1
     :date: 2014-07-09
 
-    .. changed:: fixed
+    .. change:: fixed
 
         :func:`clique.assemble` returns incorrect remainder when input path
         matches several patterns.
