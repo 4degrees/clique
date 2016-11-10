@@ -13,6 +13,7 @@ Manage collections with common numerical component.
 
     guide/index
     reference/index
+    release/index
     glossary
 
 ******************

@@ -43,7 +43,7 @@ component as valid. This can lead to surprising results at first::
      <Collection "file_v%d.0002.jpg [1-2]">,
      <Collection "file_v%d.0003.jpg [1-2]">]
 
-Here, Clique returned more collections that might have been expected, but, as
+Here, Clique returned more collections than might have been expected, but, as
 can be seen, they are all valid collections. This is an important feature of
 Clique - it doesn't attempt to guess. Instead, it is designed to be wrapped
 easily with domain specific logic to get the results desired.
@@ -106,6 +106,8 @@ dictionary (contributions welcome!)::
     >>> print clique.assemble(items, patterns=[clique.PATTERNS['frames']])[0]
     [<Collection "file_v1.%04d.jpg [1-3]">,
      <Collection "file_v2.%04d.jpg [1-3]">]
+
+.. _assembly/case_sensitivity:
 
 Case Sensitivity
 ----------------

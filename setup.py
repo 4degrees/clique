@@ -26,6 +26,7 @@ with open(
 SETUP_REQUIRES = [
     'sphinx >= 1.2.2, < 2',
     'sphinx_rtd_theme >= 0.1.6, < 1',
+    'lowdown >= 0.1.0, < 1',
     'pytest-runner >= 2.7, < 3'
 ]
 INSTALL_REQUIRES = [
