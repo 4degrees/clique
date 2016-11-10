@@ -52,9 +52,6 @@ release = _version
 # directories to ignore when looking for source files.
 exclude_patterns = []
 
-# The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
-
 # A list of prefixes to ignore for module listings
 modindex_common_prefix = ['clique.']
 
