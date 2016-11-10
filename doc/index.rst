@@ -12,7 +12,7 @@ Manage collections with common numerical component.
     :maxdepth: 2
 
     guide/index
-    reference/index
+    api_reference/index
     release/index
     glossary
 
