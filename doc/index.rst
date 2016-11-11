@@ -12,7 +12,7 @@ Manage collections with common numerical component.
     :maxdepth: 1
 
     introduction
-    installation
+    installing
     tutorial
     assembly
     collection
