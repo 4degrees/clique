@@ -2,8 +2,8 @@
     :copyright: Copyright (c) 2013 Martin Pengelly-Phillips
     :license: See LICENSE.txt.
 
-:mod:`~clique.sorted_set`
--------------------------
+*****************
+clique.sorted_set
+*****************
 
 .. automodule:: clique.sorted_set
-
