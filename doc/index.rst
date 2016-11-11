@@ -11,7 +11,11 @@ Manage collections with common numerical component.
 .. toctree::
     :maxdepth: 2
 
-    guide/index
+    introduction
+    installation
+    tutorial
+    assembly
+    collection
     api_reference/index
     release/index
     glossary
