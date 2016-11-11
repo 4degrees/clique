@@ -4,8 +4,9 @@
 
 .. _introduction:
 
+************
 Introduction
-============
+************
 
 Clique is a library for managing collections that have a common numerical
 component.
@@ -37,7 +38,7 @@ where *[index]* is the commonly changing numerical component.
 Read the :ref:`tutorial` to find out more.
 
 Copyright & License
--------------------
+===================
 
 Copyright (c) 2013 Martin Pengelly-Phillips
 

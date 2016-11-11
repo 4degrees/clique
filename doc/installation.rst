@@ -4,8 +4,9 @@
 
 .. _installation:
 
+************
 Installation
-============
+************
 
 .. highlight:: bash
 
@@ -35,7 +36,7 @@ or install it into your site-packages::
     $ python setup.py install
 
 Dependencies
-------------
+============
 
 * `Python <http://python.org>`_ >= 2.6, < 3
 

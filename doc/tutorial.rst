@@ -4,8 +4,9 @@
 
 .. _tutorial:
 
+********
 Tutorial
-========
+********
 
 .. module:: clique
 
