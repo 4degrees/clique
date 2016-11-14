@@ -8,6 +8,15 @@
 Release Notes
 *************
 
+.. release:: Upcoming
+
+    .. change:: changed
+
+        Modernised project structure. No API changes.
+
+        Project is now easier to install, manage and develop. It also comes with
+        release notes!
+
 .. release:: 1.3.1
     :date: 2016-04-30
 
