@@ -23,15 +23,15 @@ with open(
 
 
 # Compute dependencies.
-SETUP_REQUIRES = [
-    'sphinx >= 1.2.2, < 2',
-    'sphinx_rtd_theme >= 0.1.6, < 1',
-    'lowdown >= 0.1.0, < 1',
-    'pytest-runner >= 2.7, < 3'
-]
 INSTALL_REQUIRES = [
 ]
+DOC_REQUIRES = [
+    'sphinx >= 1.2.2, < 2',
+    'sphinx_rtd_theme >= 0.1.6, < 1',
+    'lowdown >= 0.1.0, < 1'
+]
 TEST_REQUIRES = [
+    'pytest-runner >= 2.7, < 3',
     'pytest >= 2.3.5, < 3',
     'pytest-cov >= 2, < 3'
 ]
@@ -39,7 +39,7 @@ TEST_REQUIRES = [
 # Readthedocs requires Sphinx extensions to be specified as part of
 # install_requires in order to build properly.
 if os.environ.get('READTHEDOCS', None) == 'True':
-    INSTALL_REQUIRES.extend(SETUP_REQUIRES)
+    INSTALL_REQUIRES.extend(DOC_REQUIRES)
 
 
 setup(
@@ -56,13 +56,11 @@ setup(
     package_dir={
         '': 'source'
     },
-    setup_requires=SETUP_REQUIRES,
     install_requires=INSTALL_REQUIRES,
-    tests_require=TEST_REQUIRES,
     extras_require={
-        'setup': SETUP_REQUIRES,
-        'tests': TEST_REQUIRES,
-        'dev': SETUP_REQUIRES + TEST_REQUIRES
+        'doc': DOC_REQUIRES,
+        'test': TEST_REQUIRES,
+        'develop': DOC_REQUIRES + TEST_REQUIRES
     },
     zip_safe=False
 )

@@ -18,25 +18,34 @@ Installation is simple with :term:`pip`::
 
     pip install clique
 
-Building from source
-====================
+Installing from source
+======================
 
-You can also build manually from the source for more control. First obtain a
-copy of the source by either `downloading
+You can also build and install manually from the source for more control.
+
+First obtain a copy of the source by either `downloading
 <https://gitlab.com/4degrees/clique/repository/archive.zip?ref=master>`_ or
 cloning the public repository::
 
-    $ git clone git@gitlab.com:4degrees/clique.git
+    git clone git@gitlab.com:4degrees/clique.git
 
-Then you can build and install the package into your current Python
-site-packages folder::
+Then build and install the package into your current Python environment::
 
     pip install .
 
-When actively developing, you can install an editable version along with
-additional dependencies for building and running tests::
+If actively developing, perform an :ref:`editable <pip:editable-installs>`
+install instead. This will link the installed package to the project source
+reflecting any local changes made::
 
-    pip install -e ".[dev]"
+    pip install -e .
+
+.. note::
+
+    To also enable building documentation and running tests from source, use the
+    following command to ensure that the relevant 'extra' packages are
+    installed::
+
+        pip install -e ".[develop]"
 
 Alternatively, just build locally and manage yourself::
 
@@ -45,21 +54,34 @@ Alternatively, just build locally and manage yourself::
 Building documentation from source
 ----------------------------------
 
-To build the documentation from source::
+Ensure the 'extra' packages required for building the documentation are
+installed::
+
+    pip install -e ".[doc]"
+
+Then build the documentation::
 
     python setup.py build_sphinx
 
-Then view in your browser::
+View the result in your browser::
 
     file:///path/to/clique/build/doc/html/index.html
 
 Running tests against the source
 --------------------------------
 
-With a copy of the source it is also possible to run the unit tests::
+Ensure the 'extra' packages required for running the tests are installed::
+
+    pip install -e ".[test]"
+
+Then run the tests as follows::
 
     python setup.py -q test
 
-With a coverage report::
+A coverage report can also be generated when running tests::
 
-    python setup.py -q test --addopts --cov=clique
+    python setup.py -q test --addopts "--cov --cov-report=html"
+
+View the generated report at::
+
+    file:///path/to/clique/htmlcov/index.html
