@@ -18,6 +18,7 @@ Manage collections with common numerical component.
     collection
     api_reference/index
     release/index
+    license
     glossary
 
 ******************
