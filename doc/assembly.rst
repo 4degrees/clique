@@ -4,8 +4,9 @@
 
 .. _assembly:
 
+********
 Assembly
-========
+********
 
 .. module:: clique
 
@@ -43,7 +44,7 @@ component as valid. This can lead to surprising results at first::
      <Collection "file_v%d.0002.jpg [1-2]">,
      <Collection "file_v%d.0003.jpg [1-2]">]
 
-Here, Clique returned more collections that might have been expected, but, as
+Here, Clique returned more collections than might have been expected, but, as
 can be seen, they are all valid collections. This is an important feature of
 Clique - it doesn't attempt to guess. Instead, it is designed to be wrapped
 easily with domain specific logic to get the results desired.
@@ -55,7 +56,7 @@ There are a couple of ways to influence the returned result from the
     * Pass custom *patterns*.
 
 Minimum Items
--------------
+=============
 
 By default, Clique will filter out any collection from the returned result of
 :py:func:`~assemble` that has less than two items. This value can be customised
@@ -67,7 +68,7 @@ per :py:func:`~assemble` call by passing *minimum_items* as a keyword::
     [<Collection "file.%04d.jpg [1]">]
 
 Patterns
---------
+========
 
 By default, Clique finds all groups of numbers in each item and creates
 collections that have common :term:`head`, :term:`tail` and :term:`padding`
@@ -107,8 +108,10 @@ dictionary (contributions welcome!)::
     [<Collection "file_v1.%04d.jpg [1-3]">,
      <Collection "file_v2.%04d.jpg [1-3]">]
 
+.. _assembly/case_sensitivity:
+
 Case Sensitivity
-----------------
+================
 
 When assembling collections, it is sometimes useful to be able to specify
 whether the case of the items should be important or not. For example,

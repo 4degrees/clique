@@ -6,8 +6,15 @@
 
 import os
 import re
+import sys
 
 # -- General ------------------------------------------------------------------
+
+# Inject source onto path so that autodoc can find it by default, but in such a
+# way as to allow overriding location.
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'source'))
+)
 
 # Extensions
 extensions = [
@@ -15,6 +22,7 @@ extensions = [
     'sphinx.ext.extlinks',
     'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode',
+    'lowdown'
 ]
 
 # The suffix of source filenames.
@@ -42,10 +50,7 @@ release = _version
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['static', 'template']
-
-# The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+exclude_patterns = []
 
 # A list of prefixes to ignore for module listings
 modindex_common_prefix = ['clique.']
@@ -55,12 +60,12 @@ modindex_common_prefix = ['clique.']
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named 'default.css' will overwrite the builtin 'default.css'.
-html_static_path = ['static']
+html_static_path = []
 
 # If True, copy source rst files to output for reference
 html_copy_source = True
@@ -81,7 +86,10 @@ def autodoc_skip(app, what, name, obj, skip, options):
 
 # -- Intersphinx --------------------------------------------------------------
 
-intersphinx_mapping = {'python':('http://docs.python.org/', None)}
+intersphinx_mapping = {
+    'python': ('http://docs.python.org/', None),
+    'pip': ('https://pip.pypa.io/en/stable/', None)
+}
 
 
 # -- Setup --------------------------------------------------------------------

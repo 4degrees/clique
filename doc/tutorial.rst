@@ -4,14 +4,15 @@
 
 .. _tutorial:
 
+********
 Tutorial
-========
+********
 
 .. module:: clique
 
 This tutorial gives a good introduction to using Clique.
 
-First make sure that you have Clique :ref:`installed <installation>`.
+First make sure that you have Clique :ref:`installed <installing>`.
 
 Clique revolves around creating collections of items that all have a commonly
 changing numerical component. Clique itself does not care what the numerical

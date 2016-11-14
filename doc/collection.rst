@@ -4,8 +4,9 @@
 
 .. _collection:
 
+***********
 Collections
-===========
+***********
 
 .. module:: clique.collection
 
@@ -37,7 +38,7 @@ A collection can be manually created using the :py:class:`~Collection` class::
     >>> collection = clique.Collection(head='file.', tail='.jpg', padding=4)
 
 Adding & Removing Items
------------------------
+=======================
 
 Items can then be :py:meth:`added <Collection.add>` to the
 collection::
@@ -69,7 +70,7 @@ raised::
     CollectionError: Item not present in collection.
 
 Accessing Items
----------------
+===============
 
 To access items in the collection, iterate over it::
 
@@ -89,7 +90,7 @@ To access items in the collection, iterate over it::
         file.0002.jpg
 
 Manipulating Indexes
---------------------
+====================
 
 Internally, Clique does not store the items directly, but rather just the
 properties to recreate the items (:term:`head`, :term:`tail`, :term:`padding`).
@@ -121,7 +122,7 @@ adding and removing items (perhaps in bulk).
         >>> collection.indexes.update(set([1, 2, 3])
 
 Formatting
-----------
+==========
 
 It is useful to express a collection as a string that represents the collection
 expression and ranges in a standard way. Clique supports basic formatting of a
@@ -148,7 +149,7 @@ string formatter and will have the following keyword variables available to it:
     * *holes* - Comma separated ranges of missing indexes.
 
 Structure
----------
+=========
 
 Clique makes it easy to get further information about the structure of a
 collection and act on that structure.

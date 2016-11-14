@@ -9,10 +9,16 @@ Clique
 Manage collections with common numerical component.
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
 
-    guide/index
-    reference/index
+    introduction
+    installing
+    tutorial
+    assembly
+    collection
+    api_reference/index
+    release/index
+    license
     glossary
 
 ******************

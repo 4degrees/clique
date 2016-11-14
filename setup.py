@@ -5,58 +5,62 @@
 import os
 import re
 
-from setuptools.command.test import test as TestCommand
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import setup, find_packages
 
+ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
+SOURCE_PATH = os.path.join(ROOT_PATH, 'source')
+README_PATH = os.path.join(ROOT_PATH, 'README.rst')
 
-class PyTest(TestCommand):
-    '''Pytest command.'''
+PACKAGE_NAME = 'clique'
 
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = []
-        self.test_suite = True
-
-    def run_tests(self):
-        '''Import pytest and run.'''
-        import pytest
-        errno = pytest.main(self.test_args)
-        raise SystemExit(errno)
-
-
-with open(os.path.join(
-    os.path.dirname(__file__), 'source', 'clique', '_version.py'
-)) as _version_file:
-    _version = re.match(
+# Read version from source.
+with open(
+    os.path.join(SOURCE_PATH, PACKAGE_NAME, '_version.py')
+) as _version_file:
+    VERSION = re.match(
         r'.*__version__ = \'(.*?)\'', _version_file.read(), re.DOTALL
     ).group(1)
 
 
+# Compute dependencies.
+INSTALL_REQUIRES = [
+]
+DOC_REQUIRES = [
+    'sphinx >= 1.2.2, < 2',
+    'sphinx_rtd_theme >= 0.1.6, < 1',
+    'lowdown >= 0.1.0, < 1'
+]
+TEST_REQUIRES = [
+    'pytest-runner >= 2.7, < 3',
+    'pytest >= 2.3.5, < 3',
+    'pytest-cov >= 2, < 3'
+]
+
+# Readthedocs requires Sphinx extensions to be specified as part of
+# install_requires in order to build properly.
+if os.environ.get('READTHEDOCS', None) == 'True':
+    INSTALL_REQUIRES.extend(DOC_REQUIRES)
+
+
 setup(
-    name='Clique',
-    version=_version,
-    description='Manage collections with common numerical component.',
-    long_description=open('README.rst').read(),
+    name=PACKAGE_NAME,
+    version=VERSION,
+    description='Manage collections with common numerical component',
+    long_description=open(README_PATH).read(),
     keywords='sequence, pattern, filesystem, collection, numerical',
     url='https://gitlab.com/4degrees/clique',
     author='Martin Pengelly-Phillips',
     author_email='martin@4degrees.ltd.uk',
     license='Apache License (2.0)',
-    packages=[
-        'clique',
-    ],
+    packages=find_packages(SOURCE_PATH),
     package_dir={
         '': 'source'
     },
-    install_requires=[
-    ],
-    tests_require=['pytest >= 2.3.5'],
-    cmdclass={
-        'test': PyTest
+    install_requires=INSTALL_REQUIRES,
+    extras_require={
+        'doc': DOC_REQUIRES,
+        'test': TEST_REQUIRES,
+        'develop': DOC_REQUIRES + TEST_REQUIRES
     },
     zip_safe=False
 )
-

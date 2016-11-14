@@ -2,16 +2,20 @@
     :copyright: Copyright (c) 2013 Martin Pengelly-Phillips
     :license: See LICENSE.txt.
 
-:mod:`clique`
-=============
+.. _api_reference:
+
+*************
+API Reference
+*************
+
+clique
+======
 
 .. automodule:: clique
 
 .. toctree::
+    :maxdepth: 1
     :glob:
 
-    collection
-    error
-    sorted_set
-    descriptor
-
+    */index
+    *
