@@ -45,7 +45,7 @@ reflecting any local changes made::
     following command to ensure that the relevant 'extra' packages are
     installed::
 
-        pip install -e ".[develop]"
+        pip install -e ".[dev]"
 
 Alternatively, just build locally and manage yourself::
 
