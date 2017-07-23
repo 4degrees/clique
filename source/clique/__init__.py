@@ -237,7 +237,7 @@ def parse(value, pattern='{head}{padding}{tail} [{ranges}]'):
     if groups.get('ranges', None) is not None:
         parts = [part.strip() for part in groups['ranges'].split(',')]
         for part in parts:
-            index_range = map(int, part.split('-', 2))
+            index_range = list(map(int, part.split('-', 2)))
 
             if len(index_range) > 1:
                 # Index range.

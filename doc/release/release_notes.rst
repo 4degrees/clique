@@ -8,6 +8,13 @@
 Release Notes
 *************
 
+.. release:: Upcoming
+
+    .. change:: fixed
+
+        :func:`clique.parse` errors under Python 3 due to change in :func:`map`
+        behaviour.
+
 .. release:: 1.4.1
     :date: 2017-07-23
 
