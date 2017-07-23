@@ -8,6 +8,13 @@
 Release Notes
 *************
 
+.. release:: Upcoming
+
+    .. change:: fixed
+
+        Documentation fails to build on `Read The Docs
+        <http://readthedocs.org/>`__ due to 'doc' extras not being installed.
+
 .. release:: 1.4.0
     :date: 2017-07-23
 
