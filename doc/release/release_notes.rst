@@ -8,7 +8,8 @@
 Release Notes
 *************
 
-.. release:: Upcoming
+.. release:: 1.4.1
+    :date: 2017-07-23
 
     .. change:: fixed
 
