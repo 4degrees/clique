@@ -128,11 +128,11 @@ def assemble(
     # Form collections.
     merge_candidates = []
     for (head, tail, padding), indexes in collection_map.items():
-            collection = Collection(head, tail, padding, indexes)
-            collections.append(collection)
+        collection = Collection(head, tail, padding, indexes)
+        collections.append(collection)
 
-            if collection.padding == 0:
-                merge_candidates.append(collection)
+        if collection.padding == 0:
+            merge_candidates.append(collection)
 
     # Merge together collections that align on padding boundaries. For example,
     # 0998-0999 and 1000-1001 can be merged into 0998-1001. Note that only
@@ -145,9 +145,10 @@ def assemble(
             continue
 
         for candidate in merge_candidates:
-            if (candidate.head == collection.head and
-                candidate.tail == collection.tail):
-
+            if (
+                candidate.head == collection.head and
+                candidate.tail == collection.tail
+            ):
                 merged_index_count = 0
                 for index in candidate.indexes:
                     if len(str(abs(index))) == collection.padding:
