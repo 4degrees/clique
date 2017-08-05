@@ -59,7 +59,7 @@ def assemble(
     For example, 1000-1010 can be considered either an unpadded collection or a
     four padded collection. By default, Clique is conservative and assumes that
     the collection is unpadded. To change this behaviour, set
-    assume_padded_when_ambiguous* to True and any ambiguous collection will have
+    *assume_padded_when_ambiguous* to True and any ambiguous collection will have
     a relevant padding set.
 
     .. note::
