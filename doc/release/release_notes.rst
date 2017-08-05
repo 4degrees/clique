@@ -8,6 +8,14 @@
 Release Notes
 *************
 
+.. release:: Upcoming
+
+    .. change:: new
+
+        Support controlling :func:`clique.assemble` padding behaviour for
+        ambiguous collections, through use of a new
+        *assume_padded_when_ambiguous* option.
+
 .. release:: 1.4.2
     :date: 2017-07-23
 

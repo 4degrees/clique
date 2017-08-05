@@ -20,7 +20,10 @@ PATTERNS = {
 }
 
 
-def assemble(iterable, patterns=None, minimum_items=2, case_sensitive=True):
+def assemble(
+    iterable, patterns=None, minimum_items=2, case_sensitive=True,
+    assume_padded_when_ambiguous=False
+):
     '''Assemble items in *iterable* into discreet collections.
 
     *patterns* may be specified as a list of regular expressions to limit
@@ -51,6 +54,19 @@ def assemble(iterable, patterns=None, minimum_items=2, case_sensitive=True):
     .. note::
 
         Any compiled *patterns* will also respect the set case sensitivity.
+
+    For certain collections it may be ambiguous whether they are padded or not.
+    For example, 1000-1010 can be considered either an unpadded collection or a
+    four padded collection. By default, Clique is conservative and assumes that
+    the collection is unpadded. To change this behaviour, set
+    *assume_padded_when_ambiguous* to True and any ambiguous collection will have
+    a relevant padding set.
+
+    .. note::
+
+        *assume_padded_when_ambiguous* has no effect on collections that are
+        unambiguous. For example, 1-100 will always be considered unpadded
+        regardless of the *assume_padded_when_ambiguous* setting.
 
     Return tuple of two lists (collections, remainder) where 'collections' is a
     list of assembled :py:class:`~clique.collection.Collection` instances and
@@ -112,11 +128,11 @@ def assemble(iterable, patterns=None, minimum_items=2, case_sensitive=True):
     # Form collections.
     merge_candidates = []
     for (head, tail, padding), indexes in collection_map.items():
-            collection = Collection(head, tail, padding, indexes)
-            collections.append(collection)
+        collection = Collection(head, tail, padding, indexes)
+        collections.append(collection)
 
-            if collection.padding == 0:
-                merge_candidates.append(collection)
+        if collection.padding == 0:
+            merge_candidates.append(collection)
 
     # Merge together collections that align on padding boundaries. For example,
     # 0998-0999 and 1000-1001 can be merged into 0998-1001. Note that only
@@ -129,9 +145,10 @@ def assemble(iterable, patterns=None, minimum_items=2, case_sensitive=True):
             continue
 
         for candidate in merge_candidates:
-            if (candidate.head == collection.head and
-                candidate.tail == collection.tail):
-
+            if (
+                candidate.head == collection.head and
+                candidate.tail == collection.tail
+            ):
                 merged_index_count = 0
                 for index in candidate.indexes:
                     if len(str(abs(index))) == collection.padding:
@@ -172,6 +189,19 @@ def assemble(iterable, patterns=None, minimum_items=2, case_sensitive=True):
 
         if not has_membership:
             remainder.append(candidate)
+
+    # Set padding for all ambiguous collections according to the
+    # assume_padded_when_ambiguous setting.
+    if assume_padded_when_ambiguous:
+        for collection in filtered:
+            if (
+                not collection.padding and collection.indexes
+            ):
+                indexes = list(collection.indexes)
+                first_index_width = len(str(indexes[0]))
+                last_index_width = len(str(indexes[-1]))
+                if first_index_width == last_index_width:
+                    collection.padding = first_index_width
 
     return filtered, remainder
 

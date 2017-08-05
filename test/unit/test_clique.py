@@ -177,6 +177,71 @@ def test_assemble_remainder_has_no_duplicates():
     assert remainder == items
 
 
+@pytest.mark.parametrize(('items', 'assume_padded', 'expected'), [
+    (
+        ['1000', '1001', '1002'],
+        False,
+        [
+            clique.Collection('', '', 0, indexes={1000, 1001, 1002})
+        ]
+    ),
+    (
+        ['1000', '1001', '1002'],
+        True,
+        [
+            clique.Collection('', '', 4, indexes={1000, 1001, 1002})
+        ]
+    ),
+    (
+        ['999', '1000', '1001'],
+        False,
+        [
+            clique.Collection('', '', 0, indexes={999, 1000, 1001})
+        ]
+    ),
+    (
+        ['999', '1000', '1001'],
+        True,
+        [
+            clique.Collection('', '', 0, indexes={999, 1000, 1001})
+        ]
+    ),
+    (
+        ['0999', '1000', '1001'],
+        False,
+        [
+            clique.Collection('', '', 4, indexes={999, 1000, 1001})
+        ]
+    ),
+    (
+        ['0999', '1000', '1001'],
+        True,
+        [
+            clique.Collection('', '', 4, indexes={999, 1000, 1001})
+        ]
+    ),
+    (
+        [],
+        True,
+        []
+    )
+], ids=[
+    'ambiguous assume unpadded',
+    'ambiguous assume padded',
+    'unambiguous unpadded assume unpadded',
+    'unambiguous unpadded assume padded',
+    'unambiguous padded assume unpadded',
+    'unambiguous padded assume padded',
+    'empty collection'
+])
+def test_assemble_assume_padded(items, assume_padded, expected):
+    '''Assemble items according to assume padded option.'''
+    collections, remainder = clique.assemble(
+        items, assume_padded_when_ambiguous=assume_padded
+    )
+    assert collections == expected
+
+
 @pytest.mark.parametrize(('value', 'pattern', 'expected'), [
     ('/path/to/file.%04d.ext []', None,
      clique.Collection('/path/to/file.', '.ext', 4, [])),
