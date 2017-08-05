@@ -8,7 +8,8 @@
 Release Notes
 *************
 
-.. release:: Upcoming
+.. release:: 1.5.0
+    :date: 2017-08-05
 
     .. change:: new
 
