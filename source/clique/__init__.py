@@ -56,9 +56,9 @@ def assemble(
         Any compiled *patterns* will also respect the set case sensitivity.
 
     For certain collections it may be ambiguous whether they are padded or not.
-    For example, 1000-1010 might be considered either an unpadded collection or
-    a four padded collection. By default, Clique is conservative and assumes
-    that the collection is unpadded. To change this behaviour, set
+    For example, 1000-1010 can be considered either an unpadded collection or a
+    four padded collection. By default, Clique is conservative and assumes that
+    the collection is unpadded. To change this behaviour, set
     assume_padded_when_ambiguous* to True and any ambiguous collection will have
     a relevant padding set.
 
