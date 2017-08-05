@@ -65,8 +65,8 @@ def assemble(
     .. note::
 
         *assume_padded_when_ambiguous* has no effect on collections that are
-        *unambiguous. For example, 1-100 will always be considered unpadded
-        *regardless of the *assume_padded_when_ambiguous* setting.
+        unambiguous. For example, 1-100 will always be considered unpadded
+        regardless of the *assume_padded_when_ambiguous* setting.
 
     Return tuple of two lists (collections, remainder) where 'collections' is a
     list of assembled :py:class:`~clique.collection.Collection` instances and
